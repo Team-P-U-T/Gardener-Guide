@@ -18,5 +18,6 @@ CREATE TABLE greenhouse(
   pests TEXT,
   harvesting TEXT,
   storage_use TEXT,
-  image_url TEXT
+  image_url TEXT,
+  notes TEXT
 )

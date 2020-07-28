@@ -65,18 +65,26 @@ function renderResults(request, response)
         if (item.name === searchName) {
           let imageHash = 'https://res-5.cloudinary.com/do6bw42am/image/upload/c_scale,f_auto,h_300/v1/';
 
-
-          //check to see if its in db already
-          //if this does not exist, do the thing
-          //if it does exist, do the other thing
-
           let alreadyExists = false;
+          let sql = 'SELECT name FROM greenhouse WHERE name=$1;';
+          let safeValue = [searchName];
 
-          response.render('pages/results.ejs', { target: item, targetImg: imageHash, alreadyExists: alreadyExists})
-
+          client.query(sql, safeValue)
+            .then (results => {
+              if(results.rowCount > 0){
+                alreadyExists = true;
+                response.render('pages/results.ejs', { target: item, targetImg: imageHash, alreadyExists: alreadyExists});
+              } else{
+                alreadyExists = false;
+                response.render('pages/results.ejs', { target: item, targetImg: imageHash, alreadyExists: alreadyExists});
+              }
+            })
         }
       });
-    });
+    }).catch((error) => {
+      console.log('ERROR', error);
+      response.render('pages/error');
+    })
 }
 
 
