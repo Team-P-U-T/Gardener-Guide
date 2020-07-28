@@ -20,7 +20,7 @@ app.set('view engine', 'ejs');
 // middleware
 
 app.use(express.static('./public')); //if not finding pages move views into public folder
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 // app.use(methodOverride('_method'));
 
 // paths
@@ -34,6 +34,7 @@ app.use('*', (request, response) => response.status(404).send('Page not Found'))
 
 
 // --------- Functions -------
+
 function renderHome(request, response)
 {
   console.log('you are home');
@@ -44,6 +45,7 @@ function renderHome(request, response)
 
 function renderResults(request, response)
 {
+
   console.log('Made it to renderResults');
 
   let searchName = request.body.search;
@@ -57,27 +59,24 @@ function renderResults(request, response)
 
   superagent.get(url)
     .query(queryParams)
-    .then(results =>
-    {
-      results.body.forEach(item =>
-      {
-        if(item.name === searchName)
-        {
 
+    .then(results => {
+      results.body.forEach(item => {
+        if (item.name === searchName) {
+          let imageHash = 'https://res-5.cloudinary.com/do6bw42am/image/upload/c_scale,f_auto,h_300/v1/';
+
+  
           //check to see if its in db already
           //if this does not exist, do the thing
           //if it does exist, do the other thing
 
           let alreadyExists = false;
 
+         response.render('pages/results.ejs', { target: item, targetImg: imageHash, alreadyExists: alreadyExists})
 
-          console.log('inside if', item)
-          response.render('pages/results.ejs', {target: item, alreadyExists: alreadyExists})
-          return new Plant(item);
         }
       });
     });
-}
 
 
 
@@ -104,37 +103,12 @@ function addToGreenhouse(request, response){
 
 
 
-
-
-
 }
 
 
 
-
-function Plant(obj)
-{
-  this.name = obj.name;
-  this.description = obj.description;
-  console.log('image', obj.image_url)
-  //this. image_url =  obj.image_url;
-  // optimal_sun
-  //   optimal_soil
-  //   planting_considerations
-  //   when_to_plant
-  //   growing_from_seed
-  //   transplanting
-  //   spacing
-  //   watering
-  //   feeding
-  //   other_care
-  //   diseases
-  //   pests
-  //   harvesting
-  //   storage_use
-}
 
 client.connect()
   .then(() => {
-    app.listen(PORT,() => console.log(`listening on ${PORT}`));
+    app.listen(PORT, () => console.log(`listening on ${PORT}`));
   }).catch(err => console.log('error connecting', err));

@@ -1,13 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <%- include('../partials/head.ejs') %>
+<%- include('../partials/head.ejs') %>
 
 <body>
 
   <%- include('../partials/header.ejs') %>
+  <div>
+    <img src="<%= targetImg %><%= target.image_url %>" alt="garden image"><br>
+    <form action=""></form>
 
-  <p><%= target.name %></p>
+    <h2><%= target.name %></h2><br>
+    <p><%= target.description %></p><br>
+    <p><%= target.optimal_sun %></p><br>
+    <p><%= target.when_to_plant %></p><br>
+    <p><%= target.spacing %></p><br>
+    <p><%= target.watering %></p><br>
+    <p><%= target.feeding %></p><br>
+    <p><%= target.harvesting %></p><br>
+    <p><%= target.growing_from_seed %></p><br>
+    <p><%= target.optimal_soil %></p><br>
+    <p><%= target.other_care %></p><br>
+    <p><%= target.deseases %></p><br>
+    <p><%= target.pests %></p><br>
+    <p><%= target.storage_use %></p><br>
+
+  </div>
+
+
+
 
   <% if(alreadyExists){ %>
       <a href="greenhouse.ejs">Go To Greenhouse</a>
@@ -42,4 +63,5 @@
   <%- include('../partials/footer.ejs') %>
 
 </body>
+
 </html>
