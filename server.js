@@ -65,19 +65,19 @@ function renderResults(request, response)
         if (item.name === searchName) {
           let imageHash = 'https://res-5.cloudinary.com/do6bw42am/image/upload/c_scale,f_auto,h_300/v1/';
 
-  
+
           //check to see if its in db already
           //if this does not exist, do the thing
           //if it does exist, do the other thing
 
           let alreadyExists = false;
 
-         response.render('pages/results.ejs', { target: item, targetImg: imageHash, alreadyExists: alreadyExists})
+          response.render('pages/results.ejs', { target: item, targetImg: imageHash, alreadyExists: alreadyExists})
 
         }
       });
     });
-
+}
 
 
 function addToGreenhouse(request, response){
@@ -91,9 +91,21 @@ function addToGreenhouse(request, response){
   client.query(sql, safeValues)
     .then(results => {
       //defining id so that we can use it to uniquely identify users in stretch goals
-      let id = results.rows[0].id;
+      // let id = results.rows[0].id;
 
-      response.status(200).redirect('/results.ejs');
+      let imageHash = 'https://res-5.cloudinary.com/do6bw42am/image/upload/c_scale,f_auto,h_300/v1/';
+
+      let alreadyExists = true;
+
+      response.render('pages/results.ejs', { target: request.body, targetImg: imageHash, alreadyExists: alreadyExists})
+
+
+
+      //when clicked, refresh page which will do the logic to check if its in db and render button accordingly
+
+
+
+
 
 
 
