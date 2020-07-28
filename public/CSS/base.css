@@ -1,3 +1,12 @@
 * {
   background-color: rgb(112, 112, 214);
 }
+
+/* placeholder for google font styles, amarante is font in logo */
+h1 {
+  font-family: 'Amarante', cursive;
+}
+
+p {
+  font-family: 'ABeeZee', sans-serif;
+}
