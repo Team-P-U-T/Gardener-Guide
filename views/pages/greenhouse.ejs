@@ -7,6 +7,23 @@
 
   <%- include('../partials/header.ejs') %>
 
+  <div>
+  <% target.forEach(plant => { %>
+ 
+    <section>
+
+      <img src="<%= plant.image_url %>">
+      <h2><%= plant.name %></h2>
+
+      <form action="/greenhouse/<%= plant.id %>?_method=DELETE" method="post">
+        <button type="submit">Remove from Greenhouse</button>
+      </form>
+
+    </section>  
+        
+    <%  }) %>
+      
+  </div>
 
   <%- include('../partials/footer.ejs') %>
   
