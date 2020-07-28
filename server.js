@@ -27,12 +27,25 @@ app.use(express.urlencoded({ extended: true }));
 
 app.post('/pages', renderResults);
 app.get('/', renderHome);
+app.post('/addplant', addToGreenhouse);
+
 app.use('*', (request, response) => response.status(404).send('Page not Found'));
 
 
 
 // --------- Functions -------
-function renderResults(request, response) {
+
+function renderHome(request, response)
+{
+  console.log('you are home');
+
+  response.render('index');
+}
+
+
+function renderResults(request, response)
+{
+
   console.log('Made it to renderResults');
 
   let searchName = request.body.search;
@@ -46,22 +59,53 @@ function renderResults(request, response) {
 
   superagent.get(url)
     .query(queryParams)
+
     .then(results => {
       results.body.forEach(item => {
         if (item.name === searchName) {
           let imageHash = 'https://res-5.cloudinary.com/do6bw42am/image/upload/c_scale,f_auto,h_300/v1/';
 
-          response.render('pages/results.ejs', { target: item, targetImg: imageHash })
+  
+          //check to see if its in db already
+          //if this does not exist, do the thing
+          //if it does exist, do the other thing
+
+          let alreadyExists = false;
+
+         response.render('pages/results.ejs', { target: item, targetImg: imageHash, alreadyExists: alreadyExists})
+
         }
       });
     });
+
+
+
+function addToGreenhouse(request, response){
+
+  let {name, description, image_url, optimal_sun, optimal_soil, planting_considerations, when_to_plant, growing_from_seed, transplanting, spacing, watering, feeding, other_care, diseases, pests, harvesting, storage_use} = request.body;
+
+  let sql = 'INSERT INTO greenhouse (name, description, image_url, optimal_sun, optimal_soil, planting_considerations, when_to_plant, growing_from_seed, transplanting, spacing, watering, feeding, other_care, diseases, pests, harvesting, storage_use) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING id;';
+
+  let safeValues = [name, description, image_url, optimal_sun, optimal_soil, planting_considerations, when_to_plant, growing_from_seed, transplanting, spacing, watering, feeding, other_care, diseases, pests, harvesting, storage_use];
+
+  client.query(sql, safeValues)
+    .then(results => {
+      //defining id so that we can use it to uniquely identify users in stretch goals
+      let id = results.rows[0].id;
+
+      response.status(200).redirect('/results.ejs');
+
+
+
+    })
+
+
+
+
+
 }
 
 
-function renderHome(request, response) {
-  console.log('you are home');
-  response.render('index');
-}
 
 
 client.connect()
