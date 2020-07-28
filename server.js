@@ -35,9 +35,10 @@ app.use('*', (request, response) => response.status(404).send('Page not Found'))
 function renderResults(request, response)
 {
   console.log('Made it to renderResults');
-  console.log('.body', request.body.search);
+
   let searchName = request.body.search;
   searchName = searchName.charAt(0).toUpperCase() + searchName.slice(1);
+
   const url = 'http://harvesthelper.herokuapp.com/api/v1/plants'
 
   let queryParams = {
@@ -53,7 +54,7 @@ function renderResults(request, response)
         if(item.name === searchName)
         {
           console.log('inside if', item)
-          response.render()
+          response.render('pages/results.ejs', {target: item})
           return new Plant(item);
         }
       });
@@ -71,22 +72,23 @@ function renderHome(request, response)
 function Plant(obj)
 {
   this.name = obj.name;
-//   description
-//   optimal_sun
-//   optimal_soil
-//   planting_considerations
-//   when_to_plant
-//   growing_from_seed
-//   transplanting
-//   spacing
-//   watering
-//   feeding
-//   other_care
-//   diseases
-//   pests
-//   harvesting
-//   storage_use
-//   image_url
+  this.description = obj.description;
+  console.log('image', obj.image_url)
+  //this. image_url =  obj.image_url;
+  // optimal_sun
+  //   optimal_soil
+  //   planting_considerations
+  //   when_to_plant
+  //   growing_from_seed
+  //   transplanting
+  //   spacing
+  //   watering
+  //   feeding
+  //   other_care
+  //   diseases
+  //   pests
+  //   harvesting
+  //   storage_use
 }
 
 client.connect()
