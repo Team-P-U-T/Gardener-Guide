@@ -1,5 +1,9 @@
-* {
-  background-color: rgb(165, 165, 228);
+/* * {
+  background-color: red;
+} */
+
+body {
+  background-image: url("../img/veggieboard.jpg");
 }
 
 /* placeholder for google font styles, amarante is font in logo */
