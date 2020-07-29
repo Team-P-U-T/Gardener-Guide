@@ -31,6 +31,7 @@ app.get('/greenhouse', renderGreenhouse);
 app.delete('/greenhouse/:id', deletePlant);
 app.get('/details/:id', renderDetails);
 app.get('/aboutUs', renderAboutUs);
+app.put('/addNote/:id', addNotes);
 
 app.use('*', (request, response) => response.status(404).send('Page not Found'));
 
@@ -154,20 +155,51 @@ function deletePlant(request, response)
 
 function renderDetails(request, response)
 {
-
-  console.log('were in renderDetails function!');
-
   let sql = 'SELECT * FROM greenhouse WHERE id=$1;';
-
   let safeValue = [request.params.id];
 
   client.query(sql, safeValue)
     .then(plant => {
-      response.status(200).render('pages/details', {detailsTarget: plant.rows[0]});
+      response.status(200).render('pages/details',{detailsTarget: plant.rows[0]});
     }).catch((error) => {
       console.log('ERROR', error);
       response.render('pages/error');
     })
+
+}
+
+function addNotes(request, response)
+{
+  // reconnect new sql file to make and join new tables
+  // figure out where to render notes (details page)
+  // SELECT * FROM notes ===== render this
+  // INSERT first into notes table 
+  // render notes somewhere === refresh to same page
+  // add button to edit or delete with each note
+  // responce will be to refresh page and will stack notes
+
+
+
+
+  console.log('found addNotes')
+  console.log('params', request.body)
+  
+  let id = request.params.id;
+  let sql = 'UPDATE notes SET notes=$1 WHERE plant_key=$2;';
+  let notes = request.body.notes;
+
+  let safeValues = [notes, id];
+
+  client.query(sql, safeValues)
+    .then(plant =>
+    {
+      response.status(200).render('pages/details',{detailsTarget: plant.rows[0]});
+      
+    })
+
+
+
+
 
 }
 

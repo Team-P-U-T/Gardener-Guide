@@ -21,3 +21,12 @@ CREATE TABLE greenhouse(
   image_url TEXT,
   notes TEXT
 )
+
+CREATE TABLE notes(
+  id SERIAL PRIMARY KEY,
+  notes TEXT,
+  plant_key INT NOT NULL,
+  FOREIGN KEY (plant_key) REFERENCES greenhouse (id)
+)
+
+SELECT * FROM notes JOIN greenhouse ON notes.plant_key = greenhouse.id;
