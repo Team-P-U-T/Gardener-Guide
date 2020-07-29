@@ -17,48 +17,20 @@ body {
   
 }
 
-footer {
-  height: 125px;
-  width: 100%;
-  border: solid brown;
-  background-color: rgb(224, 203, 175);
-  
-}
-
-#foot-logo {
-  height: 115px; 
-  margin-left: 50px;
-  
-}
 
 #favicon {
   
-  height: 115px; 
+  height: 90px; 
   margin-left: 50px;
-
+  
 }
 
 #nav {
   position: absolute;
   right: 200px;
   top: 70px;
-    
-}
-
-#footer-links {
-  position: absolute; 
-  display: inline-block;
-  margin-left: 575px;
- margin-top: 50px;
-}
-
-#copy {
-  margin-left: 10%;
-  margin-top: 55px;
-  position: absolute;
   
 }
-
 
 nav a, ul li {
   border: 1px solid;
@@ -87,13 +59,8 @@ main {
 }
 #results-image {
   background-image: url(https://c0.wallpaperflare.com/preview/469/518/472/soil-dirt-texture-earth.jpg);
-
+  
 }
-
-/* #opacity {
-  background-color: white;
-  opacity: .3;
-} */
 
 #results-main {
   text-align: center;
@@ -112,3 +79,33 @@ main {
 #plant-info {
   margin-top: 5px;
 }
+
+footer {
+  box-sizing: border-box;
+  height: 125px;
+  width: 100%;
+  vertical-align: center;
+  border: solid brown;
+  background-color: rgb(224, 203, 175);
+  
+}
+
+#foot-logo {
+  /* display: inline-block;
+  height: 115px;  
+  margin-left: 50px; */
+  
+}
+
+
+#footer-links {
+   
+  /* margin-left: 575px;
+  margin-top: 50px;  */
+}
+      
+#copy {
+  /* margin-left: 10%;
+  margin-top: 55px;  */
+}
+  
