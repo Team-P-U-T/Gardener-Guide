@@ -46,8 +46,9 @@ footer {
 }
 
 #footer-links {
-  position: absolute;
- margin-left: 575px;
+  position: absolute; 
+  display: inline-block;
+  margin-left: 575px;
  margin-top: 50px;
 }
 
@@ -89,10 +90,10 @@ main {
 
 }
 
-#opacity {
+/* #opacity {
   background-color: white;
   opacity: .3;
-}
+} */
 
 #results-main {
   text-align: center;
@@ -100,7 +101,7 @@ main {
   margin: auto;
   padding-top: 10px;
   padding-bottom: 10px;
-  color:  rgb(224, 203, 175);
+  color:  rgb(226, 211, 190);
 }
 
 #plant-image {
