@@ -17,6 +17,20 @@ body {
   
 }
 
+footer {
+  height: 125px;
+  width: 100%;
+  border: solid brown;
+  background-color: rgb(224, 203, 175);
+  
+}
+
+#foot-logo {
+  height: 115px; 
+  margin-left: 50px;
+  
+}
+
 #favicon {
   
   height: 115px; 
@@ -31,7 +45,21 @@ body {
     
 }
 
-nav a {
+#footer-links {
+  position: absolute;
+ margin-left: 575px;
+ margin-top: 50px;
+}
+
+#copy {
+  margin-left: 10%;
+  margin-top: 55px;
+  position: absolute;
+  
+}
+
+
+nav a, ul li {
   border: 1px solid;
   padding: 4px;
   border-radius: 6px 6px;
@@ -51,7 +79,6 @@ main {
   display: flex;
   align-items: center;
   background-repeat: no-repeat;
-  
 }
 
 #search-field {
