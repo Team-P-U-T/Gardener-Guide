@@ -30,6 +30,7 @@ app.post('/addplant', addToGreenhouse);
 app.get('/greenhouse', renderGreenhouse);
 app.delete('/greenhouse/:id', deletePlant);
 app.get('/details/:id', renderDetails);
+app.get('/aboutUs', renderAboutUs);
 
 app.use('*', (request, response) => response.status(404).send('Page not Found'));
 
@@ -171,7 +172,12 @@ function renderDetails(request, response)
 }
 
 
+function renderAboutUs(request, response)
+{
+  console.log('you are in about us');
 
+  response.render('pages/aboutUs');
+}
 
 
 client.connect()
