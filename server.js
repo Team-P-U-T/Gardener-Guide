@@ -29,6 +29,7 @@ app.get('/', renderHome);
 app.post('/addplant', addToGreenhouse);
 app.get('/greenhouse', renderGreenhouse);
 app.delete('/greenhouse/:id', deletePlant);
+app.get('/details/:id', renderDetails);
 
 app.use('*', (request, response) => response.status(404).send('Page not Found'));
 
@@ -147,9 +148,28 @@ function deletePlant(request, response)
     .then (() => {
       response.status(200).redirect('/greenhouse')
     })
+}
 
+
+function renderDetails(request, response)
+{
+
+  console.log('were in renderDetails function!');
+
+  let sql = 'SELECT * FROM greenhouse WHERE id=$1;';
+
+  let safeValue = [request.params.id];
+
+  client.query(sql, safeValue)
+    .then(plant => {
+      response.status(200).render('pages/details', {detailsTarget: plant.rows[0]});
+    }).catch((error) => {
+      console.log('ERROR', error);
+      response.render('pages/error');
+    })
 
 }
+
 
 
 

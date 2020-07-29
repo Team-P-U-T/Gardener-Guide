@@ -13,7 +13,13 @@
     <section>
 
       <img src="<%= plant.image_url %>">
-      <h2><%= plant.name %></h2>
+
+      <!-- <form action="/greenhouse/<%= plant.id %>?_method=PUT" method="post"> -->
+        <a href="/details/<%=plant.id %>"><%= plant.name %> </a>
+        
+      <!-- </form> -->
+
+
 
       <form action="/greenhouse/<%= plant.id %>?_method=DELETE" method="post">
         <button type="submit">Remove from Greenhouse</button>
