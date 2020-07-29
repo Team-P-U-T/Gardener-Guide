@@ -1,6 +1,6 @@
 * {
   box-sizing: border-box;
-  display: inline-block;
+  /* display: inline-block; */
   }
 
 
@@ -8,8 +8,12 @@
 
 
 /* placeholder for google font styles, amarante is font in logo */
-h1 {
+h1, h2, h4{
   font-family: 'Amarante', cursive;
+}
+
+h2 {
+  font-size: 45px;
 }
 
 p {

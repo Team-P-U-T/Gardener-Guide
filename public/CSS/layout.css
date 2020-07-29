@@ -84,4 +84,30 @@ main {
 #search-field {
   margin-left: 40%;
 }
+#results-image {
+  background-image: url(https://c0.wallpaperflare.com/preview/469/518/472/soil-dirt-texture-earth.jpg);
 
+}
+
+#opacity {
+  background-color: white;
+  opacity: .3;
+}
+
+#results-main {
+  text-align: center;
+  width: 60%;
+  margin: auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color:  rgb(224, 203, 175);
+}
+
+#plant-image {
+  border-radius: 50%;
+  border: 5px solid rgb(224, 203, 175);
+}
+
+#plant-info {
+  margin-top: 5px;
+}
