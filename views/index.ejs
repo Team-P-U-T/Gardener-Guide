@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<%- include('./partials/head.ejs') %>
+  
+  <%- include('./partials/head.ejs') %>
 
 <body>
 
   <%- include('./partials/header.ejs') %>
 
-  <form action='/pages' method='post'>
-  <input type='text' name='search' placeholder='Enter Plant Name' required>
-  <button type='submit'>Search</button>
-  </form>
+  <main id="board-image">
 
+    <form id= 'search-field' action='/pages' method='post'>
+      <input type='text' name='search' placeholder='Enter Plant Name' required>
+      <button type='submit'>Search</button>
+    </form>
+
+  </main>
+  
   <%- include('./partials/footer.ejs') %>
-
 </body>
+
 </html>
