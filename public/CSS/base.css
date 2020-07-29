@@ -1,10 +1,11 @@
-/* * {
-  background-color: red;
-} */
-
-body {
-  background-image: url("../img/veggieboard.jpg");
+* {
+  box-sizing: border-box;
+  display: inline-block;
 }
+
+
+
+
 
 /* placeholder for google font styles, amarante is font in logo */
 h1 {
