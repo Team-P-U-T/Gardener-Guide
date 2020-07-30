@@ -29,11 +29,12 @@ app.get('/', renderHome);
 app.post('/addplant', addToGreenhouse);
 app.get('/greenhouse', renderGreenhouse);
 app.delete('/greenhouse/:id', deletePlant);
-app.delete('/notes/:id', deleteNote)
+app.delete('/notes/:id', deleteNote);
 app.get('/details/:id', renderDetails);
 app.get('/aboutUs', renderAboutUs);
 app.put('/addNote/:id', addNotes);
-app.put('/updateNotes/:id', updateNotes)
+app.put('/updateNotes/:id', updateNotes);
+app.post('/addUser', addUser);
 
 app.use('*', (request, response) => response.status(404).send('Page not Found'));
 
@@ -41,10 +42,11 @@ app.use('*', (request, response) => response.status(404).send('Page not Found'))
 
 function renderHome(request, response)
 {
-  response.render('index');
+  // response.render('index');
+  response.render('login');
 }
 
-
+//-----------------------------
 function renderResults(request, response)
 {
   let searchName = request.body.search;
@@ -89,7 +91,6 @@ function renderResults(request, response)
 
 function addToGreenhouse(request, response){
 
-
   let {name, description, image_url, optimal_sun, optimal_soil, planting_considerations, when_to_plant, growing_from_seed, transplanting, spacing, watering, feeding, other_care, diseases, pests, harvesting, storage_use} = request.body;
 
   let sql = 'INSERT INTO greenhouse (name, description, image_url, optimal_sun, optimal_soil, planting_considerations, when_to_plant, growing_from_seed, transplanting, spacing, watering, feeding, other_care, diseases, pests, harvesting, storage_use) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING id;';
@@ -112,16 +113,35 @@ function addToGreenhouse(request, response){
 }
 
 //------------------------------
+
+function addUser(request, response)
+{
+  console.log('req.body in user function', request.body)
+
+  //let emails = 'SELECT email FROM '
+  // let {name, email, zipcode} = request.body;
+  // let sql = 'INSERT INTO user_table (name, email, zipcode) VALUES ($1, $2, $3) RETURNING id;';
+  // let safeValues = [name, email, zipcode]
+
+  // client.query(sql, safeValues)
+  //   .then(obj =>
+  //   {
+  //     console.log('obj in addUser', obj)
+  //   })
+}
+
+
+
 function renderGreenhouse(request, response)
 {
-  let sql = 'SELECT * FROM greenhouse;';
+  let sql = 'SELECT * FROM greenhouse;'; //WHERE user_id = request.
 
   client.query(sql)
     .then(plants => {
 
       let plantArray = plants.rows;
 
-      response.render('pages/greenhouse.ejs', {target: plantArray});
+      response.render('pages/greenhouse', {target: plantArray});
     }).catch((error) => {
       console.log('ERROR', error);
       response.render('pages/error');
@@ -207,6 +227,10 @@ function addNotes(request, response)
     })
 }
 //=====================================================
+
+
+
+
 function updateNotes(request, response)
 {
   let id = request.params.id;
