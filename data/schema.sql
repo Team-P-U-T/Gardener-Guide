@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS greenhouse;
+DROP TABLE IF EXISTS notes;
 
 CREATE TABLE greenhouse(
   id SERIAL PRIMARY KEY,
@@ -20,13 +21,13 @@ CREATE TABLE greenhouse(
   storage_use TEXT,
   image_url TEXT,
   notes TEXT
-)
+);
 
 CREATE TABLE notes(
   id SERIAL PRIMARY KEY,
-  notes TEXT,
+  user_notes TEXT,
   plant_key INT NOT NULL,
   FOREIGN KEY (plant_key) REFERENCES greenhouse (id)
-)
+);
 
 SELECT * FROM notes JOIN greenhouse ON notes.plant_key = greenhouse.id;
