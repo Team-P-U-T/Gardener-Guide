@@ -12,13 +12,13 @@ body {
 #search-header {
  height: 125px;
   width: 100%;
-  border: solid brown;
+  /* border: solid brown; */
   background-color: rgb(224, 203, 175);
   
 }
 
 
-#favicon {
+#logo {
   
   height: 90px; 
   margin-top: 25px;
@@ -45,7 +45,7 @@ main {
   width: 100%;
 }
 
-#board-image {
+#carrot-image {
   background-image: url("../img/carrots.png");
   background-size: 100%;
   width: 100%;
@@ -57,7 +57,12 @@ main {
 
 #search-field {
   margin-left: 40%;
+  background-color: rgba(143, 142, 136, 0.571);
+  border: 15px double rgb(143, 142, 136);
+  border-radius: 8px;
 }
+
+
 #results-image {
   background-image: url(https://c0.wallpaperflare.com/preview/469/518/472/soil-dirt-texture-earth.jpg);
   
@@ -72,10 +77,6 @@ main {
   color:  rgb(226, 211, 190);
 }
 
-#plant-image {
-  border-radius: 50%;
-  border: 5px solid rgb(224, 203, 175);
-}
 
 #plant-info {
   margin-top: 5px;
@@ -83,7 +84,19 @@ main {
 
 #greenhouse-page {
   margin-left: 200px;
+  display: grid;
+  grid-template-columns: 10% 40% 40% 10%;
+  grid-template-rows: 100px 100px;
 }
+
+#plant-image {
+  border-radius: 50%;
+  border: 5px solid rgb(224, 203, 175);
+  margin-bottom: 3px;
+  grid-column: 2 / 3;
+  grid-row: 1 / 3;
+}
+
 
 #gh-id {
   border: 1px solid;
@@ -91,6 +104,13 @@ main {
   margin: 6px;
   color: brown;
   background-color: rgb(224, 203, 175);
+  grid-column: 3 / 4;
+  grid-row: 1 / 2;
+}
+
+#plant-image > button {
+  grid-column: 3 / 4;
+  grid-row: 2 / 3;
 }
 
 footer {
@@ -98,7 +118,7 @@ footer {
   grid-template-columns: 1fr 2fr 1fr;
   grid-template-rows: 100%;
   height: 150px;
-  border: solid brown;
+  /* border: solid brown; */
   background-color: rgb(224, 203, 175);
   
 }
