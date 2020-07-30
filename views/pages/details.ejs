@@ -7,9 +7,56 @@
 
   <%- include('../partials/header.ejs') %>
 
-  <p>WE'RE IN DETAILS!</p>
+  <main>
+    <div>
+      <img src="<%= detailsTarget.image_url %>" alt="garden image"><br>
+      
+      <h2><%= detailsTarget.name %></h2><br>
+      <p><%= detailsTarget.description %></p><br>
+      <p><%= detailsTarget.optimal_sun %></p><br>
+      <p><%= detailsTarget.when_to_plant %></p><br>
+      <p><%= detailsTarget.spacing %></p><br>
+      <p><%= detailsTarget.watering %></p><br>
+      <p><%= detailsTarget.feeding %></p><br>
+      <p><%= detailsTarget.harvesting %></p><br>
+      <p><%= detailsTarget.growing_from_seed %></p><br>
+      <p><%= detailsTarget.optimal_soil %></p><br>
+      <p><%= detailsTarget.other_care %></p><br>
+      <p><%= detailsTarget.deseases %></p><br>
+      <p><%= detailsTarget.pests %></p><br>
+      <p><%= detailsTarget.storage_use %></p><br>
+      
+      <button id='editButton'>Edit Notes</button>
+
+      <% notesArray.forEach(note => { %>
+        
+        <p class='modifyP'><%= note.user_notes %></p>
+                 
+        
+      <form class='modifyForm' style='display:none' action='/updateNotes/<%- note.id %>?_method=PUT' method='post'>
+        <input class='modifyInput' name = 'notes' type= 'text' value= '<%= note.user_notes %>'>
+        <button type='submit' class='saveButton'>Save</button>
+      </form>
+
+          <form action='/notes/<%= note.id %>?_method=DELETE' method='post'>
+            <button type='submit'>Delete</button>
+          </form>
+    <%  }) %>
+
+  
+      <p><%= detailsTarget.notes %></p><br>
+
+      <form id='notes-form' action='/addNote/<%- detailsTarget.id %>?_method=PUT' method='post'>
+        <input type = 'text' name = 'notes' placeholder='add your note here'>
+        <button type='submit' >Add Note</button>
+      </form>
+    </div>
+  
+  </main>
   
   <%- include('../partials/footer.ejs') %>
   
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="../../js/app.js"></script>
 </body>
 </html>

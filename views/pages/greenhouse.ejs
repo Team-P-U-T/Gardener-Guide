@@ -6,18 +6,15 @@
 <body>
 
   <%- include('../partials/header.ejs') %>
-
+<main id="results-image">
   <div>
   <% target.forEach(plant => { %>
  
-    <section>
+    <section id="greenhouse-page">
 
-      <img src="<%= plant.image_url %>">
-
-      <!-- <form action="/greenhouse/<%= plant.id %>?_method=PUT" method="post"> -->
-        <a href="/details/<%=plant.id %>"><%= plant.name %> </a>
+      <img id="plant-image" src="<%= plant.image_url %>">
+       <a id="gh-id" href="/details/<%=plant.id %>"><%= plant.name %> </a>
         
-      <!-- </form> -->
 
 
 
@@ -30,7 +27,7 @@
     <%  }) %>
       
   </div>
-
+</main>
   <%- include('../partials/footer.ejs') %>
   
 </body>

@@ -29,30 +29,26 @@ app.get('/', renderHome);
 app.post('/addplant', addToGreenhouse);
 app.get('/greenhouse', renderGreenhouse);
 app.delete('/greenhouse/:id', deletePlant);
+app.delete('/notes/:id', deleteNote)
 app.get('/details/:id', renderDetails);
 app.get('/aboutUs', renderAboutUs);
+app.put('/addNote/:id', addNotes);
+app.put('/updateNotes/:id', updateNotes)
 
 app.use('*', (request, response) => response.status(404).send('Page not Found'));
-
-
 
 // --------- Functions -------
 
 function renderHome(request, response)
 {
-  console.log('you are home');
-
   response.render('index');
 }
 
 
 function renderResults(request, response)
 {
-
-  console.log('Made it to renderResults');
-
   let searchName = request.body.search;
-  searchName = searchName.charAt(0).toUpperCase() + searchName.slice(1);
+  searchName = searchName.charAt(0).toUpperCase() + searchName.toLowerCase().slice(1);
 
   const url = 'http://harvesthelper.herokuapp.com/api/v1/plants'
 
@@ -100,12 +96,10 @@ function addToGreenhouse(request, response){
 
   image_url = `https://res-5.cloudinary.com/do6bw42am/image/upload/c_scale,f_auto,h_300/v1/${image_url}`;
 
-  console.log('image_url with combined:', image_url);
-
   let safeValues = [name, description, image_url, optimal_sun, optimal_soil, planting_considerations, when_to_plant, growing_from_seed, transplanting, spacing, watering, feeding, other_care, diseases, pests, harvesting, storage_use];
 
   client.query(sql, safeValues)
-    .then(results => {
+    .then(() => {
       //defining id so that we can use it to uniquely identify users in stretch goals
       // let id = results.rows[0].id;
 
@@ -117,11 +111,9 @@ function addToGreenhouse(request, response){
     })
 }
 
-
+//------------------------------
 function renderGreenhouse(request, response)
 {
-  console.log('made it to greenhouse page!');
-
   let sql = 'SELECT * FROM greenhouse;';
 
   client.query(sql)
@@ -136,7 +128,7 @@ function renderGreenhouse(request, response)
     })
 }
 
-
+//------------------------------------------
 function deletePlant(request, response)
 {
   let id = request.params.id;
@@ -151,28 +143,87 @@ function deletePlant(request, response)
     })
 }
 
-
+//--------------------------------------------
 function renderDetails(request, response)
 {
 
-  console.log('were in renderDetails function!');
-  console.log('req.param:', request.params)
-
+  let id = request.params.id;
   let sql = 'SELECT * FROM greenhouse WHERE id=$1;';
+  let safeValue = [id];
 
-  let safeValue = [request.params.id];
+  let sql2 = 'SELECT * FROM notes WHERE plant_key=$1;';
 
   client.query(sql, safeValue)
     .then(plant => {
-      console.log('plant:', plant);
-      response.status(200).render('pages/details', {detailsTarget: plant.rows[0]});
+      client.query(sql2, safeValue)
+        .then(ourNotes =>
+        {
+          response.status(200).render('pages/details',{detailsTarget: plant.rows[0], notesArray: ourNotes.rows});
+        })
     }).catch((error) => {
       console.log('ERROR', error);
       response.render('pages/error');
     })
+}
+
+//-------------------------------------
+function deleteNote(request, response)
+{
+  let id = request.params.id;
+
+  let sql = 'DELETE FROM notes WHERE id=$1 RETURNING plant_key;';
+
+  let safeValue = [id];
+
+  client.query(sql, safeValue)
+    .then (keys => {
+      let keyID = keys.rows[0].plant_key;
+      response.status(200).redirect(`/details/${keyID}`)
+    })
 
 }
 
+//------------------------------------
+function addNotes(request, response)
+{
+  // reconnect new sql file to make and join new tables
+  // figure out where to render notes (details page)
+  // SELECT * FROM notes ===== render this
+  // INSERT first into notes table
+  // render notes somewhere === refresh to same page
+  // add button to edit or delete with each note
+  // responce will be to refresh page and will stack notes
+
+  let id = request.params.id;
+  let notes = request.body.notes;
+  let sql = 'INSERT INTO notes (user_notes, plant_key) VALUES ($1, $2);';
+
+  let safeValues = [notes, id];
+
+  client.query(sql, safeValues)
+    .then(() =>
+    {
+      response.status(200).redirect(`/details/${id}`);
+    })
+}
+//=====================================================
+function updateNotes(request, response)
+{
+  let id = request.params.id;
+  let newNotes = request.body.notes;
+  let sql = 'UPDATE notes SET user_notes=$1 WHERE id=$2 RETURNING plant_key;';
+
+  let safeValues = [newNotes, id];
+
+  client.query(sql, safeValues)
+    .then(hope =>
+    {
+      let key = hope.rows[0].plant_key;
+      console.log('hope', hope.rows[0])
+      console.log('hope', key)
+      response.status(200).redirect(`/details/${key}`);
+    })
+}
 
 function renderAboutUs(request, response)
 {
