@@ -129,6 +129,11 @@ main {
     
 }
 
+#details-main {
+  min-height: 800px;
+  padding: 40px;
+}
+
 footer {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
@@ -173,4 +178,5 @@ footer {
   margin-top: 45px; 
   
 }
+
   
