@@ -29,12 +29,13 @@ app.get('/', renderHome);
 app.post('/addplant', addToGreenhouse);
 app.get('/greenhouse', renderGreenhouse);
 app.delete('/greenhouse/:id', deletePlant);
+app.delete('/notes/:id', deleteNote)
 app.get('/details/:id', renderDetails);
 app.get('/aboutUs', renderAboutUs);
+app.put('/addNote/:id', addNotes);
+app.put('/updateNotes/:id', updateNotes)
 
 app.use('*', (request, response) => response.status(404).send('Page not Found'));
-
-
 
 // --------- Functions -------
 
@@ -117,7 +118,7 @@ function addToGreenhouse(request, response){
     })
 }
 
-
+//------------------------------
 function renderGreenhouse(request, response)
 {
   console.log('made it to greenhouse page!');
@@ -136,7 +137,7 @@ function renderGreenhouse(request, response)
     })
 }
 
-
+//------------------------------------------
 function deletePlant(request, response)
 {
   let id = request.params.id;
@@ -151,19 +152,25 @@ function deletePlant(request, response)
     })
 }
 
-
+//--------------------------------------------
 function renderDetails(request, response)
 {
-
-  console.log('were in renderDetails function!');
-
+  let id = request.params.id;
   let sql = 'SELECT * FROM greenhouse WHERE id=$1;';
+  let safeValue = [id];
 
-  let safeValue = [request.params.id];
+  let sql2 = 'SELECT * FROM notes WHERE plant_key=$1;';
 
   client.query(sql, safeValue)
     .then(plant => {
-      response.status(200).render('pages/details', {detailsTarget: plant.rows[0]});
+
+      client.query(sql2, safeValue)
+        .then(ourNotes =>
+        {
+          console.log('notes array', ourNotes.rows)
+          response.status(200).render('pages/details',{detailsTarget: plant.rows[0], notesArray: ourNotes.rows});
+        })
+
     }).catch((error) => {
       console.log('ERROR', error);
       response.render('pages/error');
@@ -171,6 +178,63 @@ function renderDetails(request, response)
 
 }
 
+//-------------------------------------
+function deleteNote(request, response)
+{
+  console.log('in the delete funct')
+  let id = request.params.id;
+
+  let sql = 'DELETE FROM notes WHERE id=$1;';
+
+  let safeValue = [id];
+
+  client.query(sql, safeValue)
+    .then (() => {
+      response.status(200).redirect('/greenhouse')
+    })
+
+}
+
+//------------------------------------
+function addNotes(request, response)
+{
+  // reconnect new sql file to make and join new tables
+  // figure out where to render notes (details page)
+  // SELECT * FROM notes ===== render this
+  // INSERT first into notes table
+  // render notes somewhere === refresh to same page
+  // add button to edit or delete with each note
+  // responce will be to refresh page and will stack notes
+
+  let id = request.params.id;
+  let notes = request.body.notes;
+  let sql = 'INSERT INTO notes (user_notes, plant_key) VALUES ($1, $2);';
+
+  let safeValues = [notes, id];
+
+  client.query(sql, safeValues)
+    .then(() =>
+    {
+      response.status(200).redirect(`/details/${id}`);
+    })
+}
+//=====================================================
+function updateNotes(request, response)
+{
+  // will probably need a UPDATE method
+  console.log('reqbody in update', request.body)
+  // let id = request.params.id;
+  // let notes = request.body.notes;
+  // let sql = 'INSERT INTO notes (user_notes, plant_key) VALUES ($1, $2);';
+
+  // let safeValues = [notes, id];
+
+  // client.query(sql, safeValues)
+  //   .then(() =>
+  //   {
+  //     response.status(200).redirect(`/details/${id}`);
+  //   })
+}
 
 function renderAboutUs(request, response)
 {
