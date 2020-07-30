@@ -156,6 +156,7 @@ function renderDetails(request, response)
 {
 
   console.log('were in renderDetails function!');
+  console.log('req.param:', request.params)
 
   let sql = 'SELECT * FROM greenhouse WHERE id=$1;';
 
@@ -163,6 +164,7 @@ function renderDetails(request, response)
 
   client.query(sql, safeValue)
     .then(plant => {
+      console.log('plant:', plant);
       response.status(200).render('pages/details', {detailsTarget: plant.rows[0]});
     }).catch((error) => {
       console.log('ERROR', error);
