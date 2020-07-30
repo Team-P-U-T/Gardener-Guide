@@ -26,6 +26,7 @@ app.use(methodOverride('_method'));
 
 app.post('/pages', renderResults);
 app.get('/', renderHome);
+app.get('/index/:id', renderIndex);
 app.post('/addplant', addToGreenhouse);
 app.get('/greenhouse', renderGreenhouse);
 app.delete('/greenhouse/:id', deletePlant);
@@ -44,6 +45,13 @@ function renderHome(request, response)
 {
   // response.render('index');
   response.render('login');
+}
+
+//---------------------------
+function renderIndex(request, response)
+{
+  let id = request.params.id;
+  response.status(200).render(`index/${id}`)
 }
 
 //-----------------------------
@@ -113,22 +121,6 @@ function addToGreenhouse(request, response){
 }
 
 //------------------------------
-
-function addUser(request, response)
-{
-  console.log('req.body in user function', request.body)
-
-  //let emails = 'SELECT email FROM '
-  // let {name, email, zipcode} = request.body;
-  // let sql = 'INSERT INTO user_table (name, email, zipcode) VALUES ($1, $2, $3) RETURNING id;';
-  // let safeValues = [name, email, zipcode]
-
-  // client.query(sql, safeValues)
-  //   .then(obj =>
-  //   {
-  //     console.log('obj in addUser', obj)
-  //   })
-}
 
 
 
@@ -228,6 +220,21 @@ function addNotes(request, response)
 }
 //=====================================================
 
+function addUser(request, response)
+{
+  console.log('req.body in user function', request.body)
+
+  //let emails = 'SELECT email FROM '
+  let {name, email, zipcode} = request.body;
+  let sql = 'INSERT INTO user_table (name, email, zipcode) VALUES ($1, $2, $3) RETURNING id;';
+  let safeValues = [name, email, zipcode];
+
+  client.query(sql, safeValues)
+    .then(obj =>
+    {
+      response.status(200).redirect(`index/${obj.rows[0].id}`)
+    })
+}
 
 
 

@@ -1,13 +1,15 @@
-DROP TABLE IF EXISTS user_table;
-DROP TABLE IF EXISTS greenhouse;
-DROP TABLE IF EXISTS notes;
+DROP TABLE IF EXISTS user_table, greenhouse, notes;
 
 CREATE TABLE user_table(
   id SERIAL PRIMARY KEY,
   name VARCHAR(255),
   email VARCHAR(255) UNIQUE,
   zipcode INT
-)
+);
+
+CREATE TABLE singlePlant(
+
+);
 
 CREATE TABLE greenhouse(
   id SERIAL PRIMARY KEY,
