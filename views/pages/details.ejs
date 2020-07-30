@@ -30,19 +30,13 @@
 
       <% notesArray.forEach(note => { %>
         
-        
-        
         <p class='modifyP'><%= note.user_notes %></p>
-          
-
-         
-
-      <form class='modifyForm' style='display:none' action='/updateNotes/<%= note.id %>?_method=PUT' method='post'>
-          <input class='modifyInput' type= 'text' value= '<%= note.user_notes %>'>
-         <button type='submit' class='saveButton'>Save</button>
+                 
+        
+      <form class='modifyForm' style='display:none' action='/updateNotes/<%- note.id %>?_method=PUT' method='post'>
+        <input class='modifyInput' name = 'notes' type= 'text' value= '<%= note.user_notes %>'>
+        <button type='submit' class='saveButton'>Save</button>
       </form>
-
-
 
           <form action='/notes/<%= note.id %>?_method=DELETE' method='post'>
             <button type='submit'>Delete</button>
