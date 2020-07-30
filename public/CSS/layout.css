@@ -67,7 +67,7 @@ main {
 #results-image {
   background-image: url(https://c0.wallpaperflare.com/preview/469/518/472/soil-dirt-texture-earth.jpg);
   z-index: 1;
-  height: 800px;
+  min-height: 800px;
   
 }
 #opacity {

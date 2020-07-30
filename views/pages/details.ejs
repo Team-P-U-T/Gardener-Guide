@@ -13,31 +13,34 @@
       <p><%= detailsTarget.description %></p><br>
       <img src="<%= detailsTarget.image_url %>" alt="garden image"><br>
 
-      <h4 class="plant-text">Optimal Sun:</h4>
-      <p><%= detailsTarget.optimal_sun %></p><br>
-      <h4 class="plant-text">When to Plant:</h4>
-      <p><%= detailsTarget.when_to_plant %></p><br>
-      <h4 class="plant-text">Spacing:</h4>
-      <p><%= detailsTarget.spacing %></p><br>
-      <h4 class="plant-text">Watering:</h4>
-      <p><%= detailsTarget.watering %></p><br>
-      <h4 class="plant-text">Feeding:</h4>
-      <p><%= detailsTarget.feeding %></p><br>
-      <h4 class="plant-text">Harvesting:</h4>
-      <p><%= detailsTarget.harvesting %></p><br>
-      <h4 class="plant-text">Growing From Seed:</h4>
-      <p><%= detailsTarget.growing_from_seed %></p><br>
-      <h4 class="plant-text">Optimal Soil:</h4>
-      <p><%= detailsTarget.optimal_soil %></p><br>
-      <h4 class="plant-text">Other Care</h4>
-      <p><%= detailsTarget.other_care %></p><br>
-      <h4 class="plant-text">Diseases</h4>
-      <p><%= detailsTarget.deseases %></p><br>
-      <h4 class="plant-text">Pests:</h4>
-      <p><%= detailsTarget.pests %></p><br>
-      <h4 class="plant-text">Storage Use:</h4>
-      <p><%= detailsTarget.storage_use %></p><br>
 
+      <button id="plant-details">See Plant Details</button>
+      <div id="hide-details" hidden>
+        <h4 class="plant-text">Optimal Sun:</h4>
+        <p><%= detailsTarget.optimal_sun %></p><br>
+        <h4 class="plant-text">When to Plant:</h4>
+        <p><%= detailsTarget.when_to_plant %></p><br>
+        <h4 class="plant-text">Spacing:</h4>
+        <p><%= detailsTarget.spacing %></p><br>
+        <h4 class="plant-text">Watering:</h4>
+        <p><%= detailsTarget.watering %></p><br>
+        <h4 class="plant-text">Feeding:</h4>
+        <p><%= detailsTarget.feeding %></p><br>
+        <h4 class="plant-text">Harvesting:</h4>
+        <p><%= detailsTarget.harvesting %></p><br>
+        <h4 class="plant-text">Growing From Seed:</h4>
+        <p><%= detailsTarget.growing_from_seed %></p><br>
+        <h4 class="plant-text">Optimal Soil:</h4>
+        <p><%= detailsTarget.optimal_soil %></p><br>
+        <h4 class="plant-text">Other Care</h4>
+        <p><%= detailsTarget.other_care %></p><br>
+        <h4 class="plant-text">Diseases</h4>
+        <p><%= detailsTarget.deseases %></p><br>
+        <h4 class="plant-text">Pests:</h4>
+        <p><%= detailsTarget.pests %></p><br>
+        <h4 class="plant-text">Storage Use:</h4>
+        <p><%= detailsTarget.storage_use %></p><br>
+      </div>
       <button id='editButton'>Edit Notes</button>
 
       <% notesArray.forEach(note => { %>
