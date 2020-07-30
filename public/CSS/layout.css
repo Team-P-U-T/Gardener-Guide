@@ -17,47 +17,21 @@ body {
   
 }
 
-footer {
-  height: 125px;
-  width: 100%;
-  border: solid brown;
-  background-color: rgb(224, 203, 175);
-  
-}
-
-#foot-logo {
-  height: 115px; 
-  margin-left: 50px;
-  
-}
 
 #favicon {
   
-  height: 115px; 
+  height: 90px; 
+  margin-top: 25px;
   margin-left: 50px;
-
+  
 }
 
 #nav {
   position: absolute;
   right: 200px;
   top: 70px;
-    
-}
-
-#footer-links {
-  position: absolute;
- margin-left: 575px;
- margin-top: 50px;
-}
-
-#copy {
-  margin-left: 10%;
-  margin-top: 55px;
-  position: absolute;
   
 }
-
 
 nav a, ul li {
   border: 1px solid;
@@ -72,7 +46,7 @@ main {
 }
 
 #board-image {
-  background-image: url("../img/veggieboard.jpg");
+  background-image: url("../img/carrots.png");
   background-size: 100%;
   width: 100%;
   height: 768px;
@@ -84,4 +58,58 @@ main {
 #search-field {
   margin-left: 40%;
 }
+#results-image {
+  background-image: url(https://c0.wallpaperflare.com/preview/469/518/472/soil-dirt-texture-earth.jpg);
+  
+}
 
+#results-main {
+  text-align: center;
+  width: 60%;
+  margin: auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color:  rgb(226, 211, 190);
+}
+
+#plant-image {
+  border-radius: 50%;
+  border: 5px solid rgb(224, 203, 175);
+}
+
+#plant-info {
+  margin-top: 5px;
+}
+
+footer {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: 100%;
+  height: 150px;
+  border: solid brown;
+  background-color: rgb(224, 203, 175);
+  
+}
+
+
+#foot-logo {
+  grid-column-start: 1;
+  grid-column-end: 2;  
+  margin-left: 20px;
+  margin-top: 30px;
+    
+}
+
+#footer-links {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  margin-top: 80px;
+  }
+      
+#copy {
+  grid-column-start: 3;
+  grid-column-end: 4;
+  margin-top: 80px; 
+  
+}
+  
