@@ -146,6 +146,7 @@ function deletePlant(request, response)
 //--------------------------------------------
 function renderDetails(request, response)
 {
+
   let id = request.params.id;
   let sql = 'SELECT * FROM greenhouse WHERE id=$1;';
   let safeValue = [id];
@@ -154,13 +155,11 @@ function renderDetails(request, response)
 
   client.query(sql, safeValue)
     .then(plant => {
-
       client.query(sql2, safeValue)
         .then(ourNotes =>
         {
           response.status(200).render('pages/details',{detailsTarget: plant.rows[0], notesArray: ourNotes.rows});
         })
-
     }).catch((error) => {
       console.log('ERROR', error);
       response.render('pages/error');
