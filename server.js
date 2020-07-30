@@ -51,12 +51,15 @@ function renderHome(request, response)
 function renderIndex(request, response)
 {
   let id = request.params.id;
-  response.status(200).render(`index/${id}`)
+  console.log('userId', id);
+
+  response.status(200).render('index', {user: id})
 }
 
 //-----------------------------
 function renderResults(request, response)
 {
+  console.log('user_key in result', request.body);
   let searchName = request.body.search;
   searchName = searchName.charAt(0).toUpperCase() + searchName.toLowerCase().slice(1);
 
@@ -222,8 +225,7 @@ function addNotes(request, response)
 
 function addUser(request, response)
 {
-  console.log('req.body in user function', request.body)
-
+// check if user exist1111111111111111111111111111111111111111111
   //let emails = 'SELECT email FROM '
   let {name, email, zipcode} = request.body;
   let sql = 'INSERT INTO user_table (name, email, zipcode) VALUES ($1, $2, $3) RETURNING id;';

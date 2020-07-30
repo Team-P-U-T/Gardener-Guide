@@ -7,9 +7,6 @@ CREATE TABLE user_table(
   zipcode INT
 );
 
-CREATE TABLE singlePlant(
-
-);
 
 CREATE TABLE greenhouse(
   id SERIAL PRIMARY KEY,
