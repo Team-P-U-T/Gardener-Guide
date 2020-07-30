@@ -81,6 +81,18 @@ main {
   margin-top: 5px;
 }
 
+#greenhouse-page {
+  margin-left: 200px;
+}
+
+#gh-id {
+  border: 1px solid;
+  border-radius: 6px 6px;
+  margin: 6px;
+  color: brown;
+  background-color: rgb(224, 203, 175);
+}
+
 footer {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;

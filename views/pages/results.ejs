@@ -6,13 +6,11 @@
 <body>
   <%- include('../partials/header.ejs') %>
   <main id="results-image">
-    <!-- <div id="results-image"></div>
-    <div id="opacity"></div> -->
     <div id="results-main">
       <h2><%= target.name %></h2><br>
       <p><%= target.description %></p><br>
       <img id="plant-image" src="<%= targetImg %><%= target.image_url %>" alt="garden image"><br>
-      
+
       <form id="plant-info" action=""></form>
       <h4 class="plant-text">Optimal Sun:</h4>
       <p><%= target.optimal_sun %></p><br>
