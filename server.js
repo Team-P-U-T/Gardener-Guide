@@ -51,7 +51,7 @@ function renderHome(request, response)
 function renderIndex(request, response)
 {
   let id = request.params.id;
-  console.log('userId', id);
+  console.log('userId in index', id);
 
   response.status(200).render('index', {user: id})
 }
@@ -60,6 +60,7 @@ function renderIndex(request, response)
 function renderResults(request, response)
 {
   console.log('user_key in result', request.body);
+  let user_key = request.body.user_key;
   let searchName = request.body.search;
   searchName = searchName.charAt(0).toUpperCase() + searchName.toLowerCase().slice(1);
 
@@ -85,10 +86,10 @@ function renderResults(request, response)
             .then (results => {
               if(results.rowCount > 0){
                 alreadyExists = true;
-                response.render('pages/results.ejs', { target: item, targetImg: imageHash, alreadyExists: alreadyExists});
+                response.render('pages/results.ejs', { target: item, targetImg: imageHash, alreadyExists: alreadyExists, user: user_key});
               } else{
                 alreadyExists = false;
-                response.render('pages/results.ejs', { target: item, targetImg: imageHash, alreadyExists: alreadyExists});
+                response.render('pages/results.ejs', { target: item, targetImg: imageHash, alreadyExists: alreadyExists, user : user_key});
               }
             })
         }
@@ -102,13 +103,14 @@ function renderResults(request, response)
 
 function addToGreenhouse(request, response){
 
-  let {name, description, image_url, optimal_sun, optimal_soil, planting_considerations, when_to_plant, growing_from_seed, transplanting, spacing, watering, feeding, other_care, diseases, pests, harvesting, storage_use} = request.body;
+  console.log('in add to greenhouse', request.body)
+  let {name, description, image_url, optimal_sun, optimal_soil, planting_considerations, when_to_plant, growing_from_seed, transplanting, spacing, watering, feeding, other_care, diseases, pests, harvesting, storage_use, user_key} = request.body;
 
-  let sql = 'INSERT INTO greenhouse (name, description, image_url, optimal_sun, optimal_soil, planting_considerations, when_to_plant, growing_from_seed, transplanting, spacing, watering, feeding, other_care, diseases, pests, harvesting, storage_use) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING id;';
+  let sql = 'INSERT INTO greenhouse (name, description, image_url, optimal_sun, optimal_soil, planting_considerations, when_to_plant, growing_from_seed, transplanting, spacing, watering, feeding, other_care, diseases, pests, harvesting, storage_use, user_key) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING id;';
 
   image_url = `https://res-5.cloudinary.com/do6bw42am/image/upload/c_scale,f_auto,h_300/v1/${image_url}`;
 
-  let safeValues = [name, description, image_url, optimal_sun, optimal_soil, planting_considerations, when_to_plant, growing_from_seed, transplanting, spacing, watering, feeding, other_care, diseases, pests, harvesting, storage_use];
+  let safeValues = [name, description, image_url, optimal_sun, optimal_soil, planting_considerations, when_to_plant, growing_from_seed, transplanting, spacing, watering, feeding, other_care, diseases, pests, harvesting, storage_use, user_key];
 
   client.query(sql, safeValues)
     .then(() => {
