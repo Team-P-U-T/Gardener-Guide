@@ -21,6 +21,7 @@ body {
 #favicon {
   
   height: 90px; 
+  margin-top: 25px;
   margin-left: 50px;
   
 }
@@ -81,31 +82,34 @@ main {
 }
 
 footer {
-  box-sizing: border-box;
-  height: 125px;
-  width: 100%;
-  vertical-align: center;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: 100%;
+  height: 150px;
   border: solid brown;
   background-color: rgb(224, 203, 175);
   
 }
 
-#foot-logo {
-  /* display: inline-block;
-  height: 115px;  
-  margin-left: 50px; */
-  
-}
 
+#foot-logo {
+  grid-column-start: 1;
+  grid-column-end: 2;  
+  margin-left: 20px;
+  margin-top: 30px;
+    
+}
 
 #footer-links {
-   
-  /* margin-left: 575px;
-  margin-top: 50px;  */
-}
+  grid-column-start: 2;
+  grid-column-end: 3;
+  margin-top: 80px;
+  }
       
 #copy {
-  /* margin-left: 10%;
-  margin-top: 55px;  */
+  grid-column-start: 3;
+  grid-column-end: 4;
+  margin-top: 80px; 
+  
 }
   
