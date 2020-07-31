@@ -33,7 +33,7 @@ app.get('/greenhouse/:id', renderGreenhouse);
 // app.post('/greenhouse', renderGreenhouse);
 app.delete('/greenhouse/:id', deletePlant);
 app.delete('/notes/:id', deleteNote);
-app.get('/details/:id', renderDetails);
+app.get('/details/:id/:plantid', renderDetails);
 app.get('/aboutUs/:id', renderAboutUs);
 app.put('/addNote/:id', addNotes);
 app.put('/updateNotes/:id', updateNotes);
@@ -167,19 +167,27 @@ function deletePlant(request, response)
 //--------------------------------------------
 function renderDetails(request, response)
 {
+ // console.log('REQUEST', request)
+  console.log('reqParams in details', request.params)
+  console.log('body in details', request.body)
 
   let id = request.params.id;
-  let sql = 'SELECT * FROM greenhouse WHERE id=$1;';
-  let safeValue = [id];
 
+  let plantid = request.params.plantid;
+
+  console.log('params id in renderDetails', id)
+
+
+  let sql = 'SELECT * FROM greenhouse WHERE id=$1 AND user_key=$2;';
+  let safeValue = [plantid, id];
   let sql2 = 'SELECT * FROM notes WHERE plant_key=$1;';
-
+  let safeValue2 = [plantid]
   client.query(sql, safeValue)
     .then(plant => {
-      client.query(sql2, safeValue)
+      client.query(sql2, safeValue2)
         .then(ourNotes =>
         {
-          response.status(200).render('pages/details',{detailsTarget: plant.rows[0], notesArray: ourNotes.rows});
+          response.status(200).render('pages/details',{detailsTarget: plant.rows[0], notesArray: ourNotes.rows, user: id});
         })
     }).catch((error) => {
       console.log('ERROR', error);
