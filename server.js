@@ -234,26 +234,14 @@ function addNotes(request, response)
 function addUser(request, response)
 {
   let {name, email, zipcode} = request.body;
-  //let check = 'SELECT id FROM user_table WHERE email=$1;';
-  let safeValue = [email];
+  let sql = 'INSERT INTO user_table (name, email, zipcode) VALUES ($1, $2, $3) RETURNING id;';
+  let safeValues = [name, email, zipcode];
 
-  //client.query(check, safeValue)
-   // .then(mail => {
-   //   if(mail.rowCount > 0)
-   //   {
-        
-       
-   //   }else{
-        let sql = 'INSERT INTO user_table (name, email, zipcode) VALUES ($1, $2, $3) RETURNING id;';
-        let safeValues = [name, email, zipcode];
-
-        client.query(sql, safeValues)
-          .then(obj =>
-          {
-            response.status(200).redirect(`index/${obj.rows[0].id}`)
-          })
-      //}
-   // })
+  client.query(sql, safeValues)
+    .then(obj =>
+    {
+      response.status(200).redirect(`index/${obj.rows[0].id}`)
+    })
 }
 
 //-------------------------------
@@ -269,7 +257,6 @@ function signIn(request, response)
       {
         response.status(200).redirect(`index/${mail.rows[0].id}`);
       }else{
-        // need message alerts dont work'Email Does Not Exist');
         response.status(200).render('signup', {mail: userEmail});
       }
     })
