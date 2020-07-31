@@ -154,22 +154,16 @@ function deletePlant(request, response)
 {
   let id = request.params.id;
 
-  let sql = 'DELETE FROM greenhouse WHERE id=$1;';
+  let sql = 'DELETE FROM greenhouse WHERE id=$1 RETURNING user_key;';
 
   let safeValue = [id];
 
   client.query(sql, safeValue)
-    .then (() => {
-      response.status(200).redirect('/greenhouse')
+    .then (theKey => {
+      // console.log('the key', theKey)
+      response.status(200).redirect(`/greenhouse/${theKey.rows[0].user_key}`)
     })
 }
-
-
-
-
-
-
-
 
 //--------------------------------------------
 function renderDetails(request, response)
@@ -211,20 +205,11 @@ function deleteNote(request, response)
       let keyID = keys.rows[0].plant_key;
       response.status(200).redirect(`/details/${keyID}`)
     })
-
 }
 
 //------------------------------------
 function addNotes(request, response)
 {
-  // reconnect new sql file to make and join new tables
-  // figure out where to render notes (details page)
-  // SELECT * FROM notes ===== render this
-  // INSERT first into notes table
-  // render notes somewhere === refresh to same page
-  // add button to edit or delete with each note
-  // responce will be to refresh page and will stack notes
-
   let id = request.params.id;
   let notes = request.body.notes;
   let sql = 'INSERT INTO notes (user_notes, plant_key) VALUES ($1, $2);';
