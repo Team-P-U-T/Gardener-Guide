@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 DROP TABLE IF EXISTS user_table, greenhouse, notes;
 
 CREATE TABLE user_table(
@@ -7,6 +8,9 @@ CREATE TABLE user_table(
   zipcode INT
 );
 
+=======
+DROP TABLE IF EXISTS greenhouse, notes;
+>>>>>>> 7df0a967a9964d378de6501cfc14a0611105fec5
 
 CREATE TABLE greenhouse(
   id SERIAL PRIMARY KEY,
