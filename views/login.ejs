@@ -23,6 +23,12 @@
   <main>
     <h1>Welcome and Intro statement</h1>
 
+    <form id= 'login_form' action='/signIn' method='post'>
+      <h2>Please enter email:</h2>
+      <input type='text' name='email' placeholder='JohnDoe@gmail.com' required>
+      <button type='submit'>Submit</button>
+    </form>
+
     <form id= 'login_form' action='/addUser' method='post'>
       <h2>Please enter name:</h2>
       <input type='text' name='name' placeholder='John Doe' required>
