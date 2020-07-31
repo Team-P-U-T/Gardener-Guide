@@ -52,38 +52,10 @@ function renderIndex(request, response)
 {
   let id = request.params.id;
   //====================================================
-  let sql = 'SELECT zipcode FROM user_table WHERE id=$1'
-  let safeValue = [id]
 
-  client.query(sql, safeValue)
-    .then(zippy => {
-      if(zippy.rowCount > 0)
-      {
-        let zip = zippy.rows[0].zipcode;
-        let url = 'http://api.weatherbit.io/v2.0/current';
-        // let url = 'http://api.weatherbit.io/v2.0/forecast/daily';
-
-        let queryParams =
-        {
-          key: process.env.WEATHER_API_KEY,
-          postal_code: zip,
-          days: 1,
-          umits: 'I'
-        }
-        superagent.get(url).query(queryParams).then(day =>
-        {
-          let cTemp = day.body.data[0].temp;
-          let fTemp = (cTemp * 9/5) + 32;
-          //formula to convert c to f (tempC * 9/5) + 32 = tempF
-          response.status(200).render('index', {user: id, temp: fTemp})
-        })
-      }else{
-        response.status(200).render('index', {user: id, temp: ''})
-      }
-    })
   //========================================================
 
-  //response.status(200).render('index', {user: id})
+  response.status(200).render('index', {user: id})
 }
 
 //-----------------------------
@@ -152,18 +124,61 @@ function addToGreenhouse(request, response)
 //------------------------------
 function renderGreenhouse(request, response)
 {
+
   let id = request.params.id;
-  let sql = `SELECT * FROM greenhouse WHERE user_key=${id} ;`;
 
-  client.query(sql)
-    .then(plants => {
+  let sql2 = 'SELECT zipcode FROM user_table WHERE id=$1'
+  let safeValue = [id]
 
-      let plantArray = plants.rows;
-      response.render('pages/greenhouse', {target: plantArray, user: id});
+  client.query(sql2, safeValue)
+    .then(zippy => {
+      if(zippy.rowCount > 0)
+      {
+        let zip = zippy.rows[0].zipcode;
+        let url = 'http://api.weatherbit.io/v2.0/current';
+        // let url = 'http://api.weatherbit.io/v2.0/forecast/daily';
 
-    }).catch((error) => {
-      console.log('ERROR', error);
-      response.render('pages/error');
+        let queryParams =
+        {
+          key: process.env.WEATHER_API_KEY,
+          postal_code: zip,
+          days: 1,
+          // units: 'I'
+        }
+        superagent.get(url).query(queryParams).then(day =>
+        {
+          let cTemp = day.body.data[0].temp;
+          let decimalfTemp = (cTemp * 9/5) + 32;
+          let fTemp = Math.round(decimalfTemp);
+          //formula to convert c to f (tempC * 9/5) + 32 = tempF
+          let sql = `SELECT * FROM greenhouse WHERE user_key=${id} ;`;
+
+          client.query(sql)
+            .then(plants => {
+              console.log('plants in weather:', plants);
+              console.log('fTemp:', fTemp);
+              let plantArray = plants.rows;
+              response.render('pages/greenhouse', {target: plantArray, user: id, temp: fTemp});
+
+            }).catch((error) => {
+              console.log('ERROR', error);
+              response.render('pages/error');
+            })
+        })
+      }else{
+        let sql = `SELECT * FROM greenhouse WHERE user_key=${id} ;`;
+
+        client.query(sql)
+          .then(plants => {
+
+            let plantArray = plants.rows;
+            response.render('pages/greenhouse', {target: plantArray, user: id, temp: ''});
+
+          }).catch((error) => {
+            console.log('ERROR', error);
+            response.render('pages/error');
+          })
+      }
     })
 }
 

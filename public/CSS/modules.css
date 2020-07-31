@@ -1,14 +1,10 @@
 #toGreenhouseButton {
   text-decoration: none;
-  /* margin-top: 5px;;
-  margin-bottom: 1.5px; */
   padding: 3px;
   color: black;
   background-color: white;
   border: 2px solid rgb(51, 30, 2);;
   border-radius: 3px;
-  /* transition: background-color .5s;
-  transition: all .2s ease-in-out;  */
 }
 
 #toGreenhouseButton :visited {
@@ -20,6 +16,13 @@
   color: black;
   background-color: white;
   border: 1px solid rgb(224, 203, 175);
+}
+
+#temp {
+  font-size: 30px;
+  color: whitesmoke;
+  margin-left: 20px;
+  margin-top: 15px;
 }
 
 
@@ -146,4 +149,11 @@
   grid-row: 1 / 2;
   align-self: center;
   color: whitesmoke;
+}
+
+.bio-links {
+  font-size: 18px;
+  color: rgb(98, 160, 95);
+  font-style: italic;
+  text-decoration: none;
 }
