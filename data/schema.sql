@@ -1,5 +1,4 @@
-DROP TABLE IF EXISTS greenhouse;
-DROP TABLE IF EXISTS notes;
+DROP TABLE IF EXISTS greenhouse, notes;
 
 CREATE TABLE greenhouse(
   id SERIAL PRIMARY KEY,
