@@ -6,7 +6,6 @@ const superagent = require('superagent');
 require('dotenv').config();
 require('ejs');
 const methodOverride = require('method-override');
-const { response } = require('express');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -51,14 +50,43 @@ function renderHome(request, response)
 //---------------------------
 function renderIndex(request, response)
 {
-  //====================================================
-
-
-
-
-//========================================================
   let id = request.params.id;
-  response.status(200).render('index', {user: id})
+  //====================================================
+  let sql = 'SELECT zipcode FROM user_table WHERE id=$1'
+  let safeValue = [id]
+
+  client.query(sql, safeValue)
+    .then(zippy => {
+      console.log('rowcount', zippy.rowCount)
+      if(zippy.rowCount > 0)
+      {
+        let zip = zippy.rows[0].zipcode;
+        let url = 'http://api.weatherbit.io/v2.0/current';
+        // let url = 'http://api.weatherbit.io/v2.0/forecast/daily';
+
+        let queryParams =
+        {
+          key: process.env.WEATHER_API_KEY,
+          postal_code: zip,
+          days: 1,
+          umits: 'I'
+        }
+console.log('outside')
+        superagent.get(url).query(queryParams).then(day =>
+        {
+          let cTemp = day.body.data[0].temp;
+          let fTemp = (cTemp * 9/5) + 32;
+          console.log('ftemp',fTemp);
+          //formula to convert c to f (tempC * 9/5) + 32 = tempF
+          response.status(200).render('index', {user: id, temp: fTemp})
+        })
+      }else{
+        response.status(200).render('index', {user: id, temp: ''})
+      }
+    })
+  //========================================================
+
+  //response.status(200).render('index', {user: id})
 }
 
 //-----------------------------

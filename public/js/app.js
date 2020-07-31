@@ -13,4 +13,4 @@ $('#plant-details').on('click', function() {
   else if($('#plant-details').text() === 'Hide Plant Details'){
     $('#plant-details').text('See Plant Details');
   }
-  });
+});
