@@ -143,11 +143,21 @@ function deletePlant(request, response)
     })
 }
 
+
+
+
+
+
+
+
 //--------------------------------------------
 function renderDetails(request, response)
 {
 
   let id = request.params.id;
+
+
+
   let sql = 'SELECT * FROM greenhouse WHERE id=$1;';
   let safeValue = [id];
 
@@ -165,6 +175,7 @@ function renderDetails(request, response)
       response.render('pages/error');
     })
 }
+
 
 //-------------------------------------
 function deleteNote(request, response)
