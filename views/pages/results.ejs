@@ -6,10 +6,12 @@
 <body>
   <%- include('../partials/header.ejs') %>
   <main id="results-image">
-    <div id="results-main">
-      <h2><%= target.name %></h2><br>
-      <p><%= target.description %></p><br>
-      <img id="plant-image" src="<%= targetImg %><%= target.image_url %>" alt="garden image"><br>
+    <div id="opacity">
+      <div id="results-main">
+        <h2><%= target.name %></h2><br>
+        <p><%= target.description %></p><br>
+        <img id="plant-image" src="<%= targetImg %><%= target.image_url %>" alt="garden image"><br>
+
 
       <% if(alreadyExists){ %>
       <br><a id="toGreenhouseButton" href="/greenhouse/<%= user %>">Go To Greenhouse</a>
@@ -38,36 +40,38 @@
         
       </form>
       <% } %>
+       
 
 
-      <form id="plant-info" action=""></form>
-      <br><h4 class="plant-text">Optimal Sun:</h4>
-      <p><%= target.optimal_sun %></p><br>
-      <h4 class="plant-text">When to Plant:</h4>
-      <p><%= target.when_to_plant %></p><br>
-      <h4 class="plant-text">Spacing:</h4>
-      <p><%= target.spacing %></p><br>
-      <h4 class="plant-text">Watering:</h4>
-      <p><%= target.watering %></p><br>
-      <h4 class="plant-text">Feeding:</h4>
-      <p><%= target.feeding %></p><br>
-      <h4 class="plant-text">Harvesting:</h4>
-      <p><%= target.harvesting %></p><br>
-      <h4 class="plant-text">Growing From Seed:</h4>
-      <p><%= target.growing_from_seed %></p><br>
-      <h4 class="plant-text">Optimal Soil:</h4>
-      <p><%= target.optimal_soil %></p><br>
-      <h4 class="plant-text">Other Care</h4>
-      <p><%= target.other_care %></p><br>
-      <h4 class="plant-text">Diseases</h4>
-      <p><%= target.diseases %></p><br>
-      <h4 class="plant-text">Pests:</h4>
-      <p><%= target.pests %></p><br>
-      <h4 class="plant-text">Storage Use:</h4>
-      <p><%= target.storage_use %></p><br>
+        <form id="plant-info" action=""></form>
+        <br>
+        <h4 class="plant-text">Optimal Sun:</h4>
+        <p><%= target.optimal_sun %></p><br>
+        <h4 class="plant-text">When to Plant:</h4>
+        <p><%= target.when_to_plant %></p><br>
+        <h4 class="plant-text">Spacing:</h4>
+        <p><%= target.spacing %></p><br>
+        <h4 class="plant-text">Watering:</h4>
+        <p><%= target.watering %></p><br>
+        <h4 class="plant-text">Feeding:</h4>
+        <p><%= target.feeding %></p><br>
+        <h4 class="plant-text">Harvesting:</h4>
+        <p><%= target.harvesting %></p><br>
+        <h4 class="plant-text">Growing From Seed:</h4>
+        <p><%= target.growing_from_seed %></p><br>
+        <h4 class="plant-text">Optimal Soil:</h4>
+        <p><%= target.optimal_soil %></p><br>
+        <h4 class="plant-text">Other Care:</h4>
+        <p><%= target.other_care %></p><br>
+        <h4 class="plant-text">Diseases:</h4>
+        <p><%= target.diseases %></p><br>
+        <h4 class="plant-text">Pests:</h4>
+        <p><%= target.pests %></p><br>
+        <h4 class="plant-text">Storage Use:</h4>
+        <p><%= target.storage_use %></p><br>
+      </div>
+
     </div>
-
-
 
 
 

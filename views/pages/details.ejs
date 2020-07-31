@@ -1,71 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../CSS/reset.css">
-    <link rel="stylesheet" href="../CSS/base.css">
-    <link rel="stylesheet" href="../CSS/layout.css">
-    <link rel="stylesheet" href="../CSS/modules.css">
-    <link rel="icon" href="../../img/favicon.png" type="image/png">
-    <link href="https://fonts.googleapis.com/css2?family=ABeeZee&family=Amarante&display=swap" rel="stylesheet">
-    <title>Gardener's Guide</title>
-  </head>
+
+
+<%- include('../partials/head.ejs') %>
+
 
 <body>
 
   <%- include('../partials/header.ejs') %>
 
-  <main>
-    <div>
-      <img src="<%= detailsTarget.image_url %>" alt="garden image"><br>
-      
-      <h2><%= detailsTarget.name %></h2><br>
-      <p><%= detailsTarget.description %></p><br>
-      <p><%= detailsTarget.optimal_sun %></p><br>
-      <p><%= detailsTarget.when_to_plant %></p><br>
-      <p><%= detailsTarget.spacing %></p><br>
-      <p><%= detailsTarget.watering %></p><br>
-      <p><%= detailsTarget.feeding %></p><br>
-      <p><%= detailsTarget.harvesting %></p><br>
-      <p><%= detailsTarget.growing_from_seed %></p><br>
-      <p><%= detailsTarget.optimal_soil %></p><br>
-      <p><%= detailsTarget.other_care %></p><br>
-      <p><%= detailsTarget.deseases %></p><br>
-      <p><%= detailsTarget.pests %></p><br>
-      <p><%= detailsTarget.storage_use %></p><br>
-      
-      <button id='editButton'>Edit Notes</button>
+  <main id="details-main">
+    <div id="details-div">
+      <div>
+        <h2><%= detailsTarget.name %></h2><br>
+        <p><%= detailsTarget.description %></p><br>
+        <img id="detail-image" src="<%= detailsTarget.image_url %>" alt="garden image"><br><br>
 
-      <% notesArray.forEach(note => { %>
-        
+
+        <button id="plant-details">See Plant Details</button>
+        <div id="hide-details" hidden>
+          <h4 class="plant-text">Optimal Sun:</h4>
+          <p><%= detailsTarget.optimal_sun %></p><br>
+          <h4 class="plant-text">When to Plant:</h4>
+          <p><%= detailsTarget.when_to_plant %></p><br>
+          <h4 class="plant-text">Spacing:</h4>
+          <p><%= detailsTarget.spacing %></p><br>
+          <h4 class="plant-text">Watering:</h4>
+          <p><%= detailsTarget.watering %></p><br>
+          <h4 class="plant-text">Feeding:</h4>
+          <p><%= detailsTarget.feeding %></p><br>
+          <h4 class="plant-text">Harvesting:</h4>
+          <p><%= detailsTarget.harvesting %></p><br>
+          <h4 class="plant-text">Growing From Seed:</h4>
+          <p><%= detailsTarget.growing_from_seed %></p><br>
+          <h4 class="plant-text">Optimal Soil:</h4>
+          <p><%= detailsTarget.optimal_soil %></p><br>
+          <h4 class="plant-text">Other Care:</h4>
+          <p><%= detailsTarget.other_care %></p><br>
+          <h4 class="plant-text">Diseases:</h4>
+          <p><%= detailsTarget.deseases %></p><br>
+          <h4 class="plant-text">Pests:</h4>
+          <p><%= detailsTarget.pests %></p><br>
+          <h4 class="plant-text">Storage Use:</h4>
+          <p><%= detailsTarget.storage_use %></p><br>
+        </div>
+        <button id='editButton'>Edit Notes</button>
+
+        <% notesArray.forEach(note => { %>
+
         <p class='modifyP'><%= note.user_notes %></p>
-                 
-        
-      <form class='modifyForm' style='display:none' action='/updateNotes/<%- note.id %>?_method=PUT' method='post'>
-        <input class='modifyInput' name = 'notes' type= 'text' value= '<%= note.user_notes %>'>
-        <button type='submit' class='saveButton'>Save</button>
-      </form>
 
-          <form action='/notes/<%= note.id %>?_method=DELETE' method='post'>
-            <button type='submit'>Delete</button>
-          </form>
-    <%  }) %>
 
-  
-      <p><%= detailsTarget.notes %></p><br>
+        <form class='modifyForm' style='display:none' action='/updateNotes/<%- note.id %>?_method=PUT' method='post'>
+          <input class='modifyInput' name='notes' type='text' value='<%= note.user_notes %>'>
+          <button type='submit' class='saveButton'>Save</button>
+        </form>
 
-      <form id='notes-form' action='/addNote/<%- detailsTarget.id %>?_method=PUT' method='post'>
-        <input type = 'text' name = 'notes' placeholder='add your note here'>
-        <button type='submit' >Add Note</button>
-      </form>
+        <form action='/notes/<%= note.id %>?_method=DELETE' method='post'>
+          <button type='submit'>Delete</button>
+        </form><br>
+        <%  }) %>
+
+
+        <p><%= detailsTarget.notes %></p><br>
+
+        <form id='notes-form' action='/addNote/<%- detailsTarget.id %>?_method=PUT' method='post'>
+          <input type='text' name='notes' placeholder='add your note here'>
+          <button type='submit'>Add Note</button>
+        </form>
+      </div>
     </div>
-  
   </main>
-  
+
   <%- include('../partials/footer.ejs') %>
-  
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="../../js/app.js"></script>
 </body>
+
 </html>

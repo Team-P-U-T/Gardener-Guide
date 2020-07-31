@@ -1,34 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <%- include('../partials/head.ejs') %>
+<%- include('../partials/head.ejs') %>
 
 <body>
 
   <%- include('../partials/header.ejs') %>
-<main id="results-image">
-  <div>
-  <% target.forEach(plant => { %>
- 
-    <section id="greenhouse-page">
 
-      <img id="plant-image" src="<%= plant.image_url %>">
+  <main id="results-image">
+    <div>
+      <% target.forEach(plant => { %>
 
-       <a id="gh-id" href="/details/<%=plant.id %>"><%= plant.name %> </a>
+      <section id="greenhouse-page">
 
-     
+        <img id="plant-image" src="<%= plant.image_url %>">
 
-      <form action="/greenhouse/<%= plant.id %>?_method=DELETE" method="post">
-        <button type="submit">Remove from Greenhouse</button>
-      </form>
+        <div id="link-container">
+          <a id="gh-id" href="/details/<%=plant.id %>"><%= plant.name %> </a>
 
-    </section>  
-        
-    <%  }) %>
-      
-  </div>
-</main>
+          <form action="/greenhouse/<%= plant.id %>?_method=DELETE" method="post">
+            <button id="remove-button" type="submit">Remove from Greenhouse</button>
+          </form>
+        </div>
+      </section>
+
+      <%  }) %>
+
+    </div>
+  </main>
+
   <%- include('../partials/footer.ejs') %>
-  
+
 </body>
+
 </html>
