@@ -12,25 +12,20 @@ body {
 #search-header {
  height: 125px;
   width: 100%;
-  /* border: solid brown; */
   background-color: rgb(224, 203, 175);
-  
 }
 
 
 #logo {
-  
   height: 90px; 
   margin-top: 25px;
   margin-left: 50px;
-  
 }
 
 #nav {
   position: absolute;
   right: 200px;
   top: 70px;
-  
 }
 
 nav a, ul li {
@@ -65,14 +60,16 @@ main {
 
 
 #results-image {
-  background-image: url(https://c0.wallpaperflare.com/preview/469/518/472/soil-dirt-texture-earth.jpg);
+  background-image: url("../img/dirt3.png");
+  background-size: cover;
   z-index: 1;
   min-height: 800px;
   
 }
 #opacity {
   z-index: 2;
-  background-color: rgba(71, 54, 31, 0.349)
+  background-color: rgba(71, 54, 31, 0.342)
+  
   
 }
 
@@ -82,7 +79,9 @@ main {
   margin: auto;
   padding-top: 10px;
   padding-bottom: 10px;
-  color:  rgb(209, 181, 141);
+  color: whitesmoke;
+  font-size: 20px;
+  /* color:  rgb(209, 181, 141); */
   z-index: 3;
 }
 
@@ -132,6 +131,36 @@ main {
 #details-main {
   min-height: 800px;
   padding: 40px;
+  background-image: url(https://c0.wallpaperflare.com/preview/469/518/472/soil-dirt-texture-earth.jpg);
+  background-size: cover;
+  color: whitesmoke;
+  font-size: 18px;
+  /* z-index: 1; */
+}
+
+#detail-image {
+  border: 5px solid rgb(224, 203, 175);
+  border-radius: 10px;
+}
+
+ #details-div {
+  z-index: 3;
+  background-color: rgba(245, 245, 245, 0.192);
+  padding: 10px;
+  text-align: center;
+  padding: 50px;
+}  
+
+#hide-details {
+  margin: 10px;
+}
+
+.modifyP {
+  margin-top: 10px;
+}
+
+.modifyInput {
+  margin-top: 10px;
 }
 
 footer {
@@ -139,7 +168,6 @@ footer {
   grid-template-columns: 1fr 2fr 1fr;
   grid-template-rows: 100%;
   height: 100px;
-  /* border: solid brown; */
   background-color: rgb(224, 203, 175);
   
 }
