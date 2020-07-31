@@ -22,14 +22,16 @@
 
   <main>
     <h1>Welcome and Intro statement</h1>
-
-    <form id= 'login_form' action='/signIn' method='post'>
-      <h2>Please enter email:</h2>
-      <input type='text' name='email' placeholder='JohnDoe@gmail.com' required>
+    
+    <form id= 'login_form' action='/addUser' method='post'>
+      <h2>Please enter name:</h2>
+      <input type='text' name='name' placeholder='John Doe' required>
+      <input type='hidden' name='email' placeholder='<%= mail %>' required>
+      <h2>Please enter zip code:</h2>
+      <input type='text' name='zipcode' placeholder='98115' required>
+          
       <button type='submit'>Submit</button>
     </form>
-
-    
   </main>
 
 

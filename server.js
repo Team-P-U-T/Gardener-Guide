@@ -57,7 +57,6 @@ function renderIndex(request, response)
 
   client.query(sql, safeValue)
     .then(zippy => {
-      console.log('rowcount', zippy.rowCount)
       if(zippy.rowCount > 0)
       {
         let zip = zippy.rows[0].zipcode;
@@ -71,12 +70,10 @@ function renderIndex(request, response)
           days: 1,
           umits: 'I'
         }
-console.log('outside')
         superagent.get(url).query(queryParams).then(day =>
         {
           let cTemp = day.body.data[0].temp;
           let fTemp = (cTemp * 9/5) + 32;
-          console.log('ftemp',fTemp);
           //formula to convert c to f (tempC * 9/5) + 32 = tempF
           response.status(200).render('index', {user: id, temp: fTemp})
         })
@@ -237,16 +234,16 @@ function addNotes(request, response)
 function addUser(request, response)
 {
   let {name, email, zipcode} = request.body;
-  let check = 'SELECT id FROM user_table WHERE email=$1;';
+  //let check = 'SELECT id FROM user_table WHERE email=$1;';
   let safeValue = [email];
 
-  client.query(check, safeValue)
-    .then(mail => {
-      if(mail.rowCount > 0)
-      {
-        // need message alerts dont work'Email Already Exist');
-        response.status(200).render('login');
-      }else{
+  //client.query(check, safeValue)
+   // .then(mail => {
+   //   if(mail.rowCount > 0)
+   //   {
+        
+       
+   //   }else{
         let sql = 'INSERT INTO user_table (name, email, zipcode) VALUES ($1, $2, $3) RETURNING id;';
         let safeValues = [name, email, zipcode];
 
@@ -255,8 +252,8 @@ function addUser(request, response)
           {
             response.status(200).redirect(`index/${obj.rows[0].id}`)
           })
-      }
-    })
+      //}
+   // })
 }
 
 //-------------------------------
@@ -273,7 +270,7 @@ function signIn(request, response)
         response.status(200).redirect(`index/${mail.rows[0].id}`);
       }else{
         // need message alerts dont work'Email Does Not Exist');
-        response.status(200).render('login');
+        response.status(200).render('signup', {mail: userEmail});
       }
     })
 }
