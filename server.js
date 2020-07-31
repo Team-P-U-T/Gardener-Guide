@@ -248,6 +248,7 @@ function addNotes(request, response)
 //--------------------------------
 function addUser(request, response)
 {
+  // console.log('request.body:'. request.body);
   let {name, email, zipcode} = request.body;
   let sql = 'INSERT INTO user_table (name, email, zipcode) VALUES ($1, $2, $3) RETURNING id;';
   let safeValues = [name, email, zipcode];

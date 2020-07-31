@@ -12,12 +12,6 @@
   <title>Log-In</title>
 </head>
 <body class="login-body">
-  <!-- <header id="search-header">
-    <img id="logo" src="../../img/logo.png" alt="logo">
-    <nav id="nav">     
-    </nav>
-  </header> -->
-
 
 
   <main class="login-main">
@@ -26,8 +20,7 @@
     <form id= 'login_form' action='/addUser' method='post'>
       <h4>Name:</h2>
       <input type='text' name='name' placeholder='JaneJohn Doe' required>
-      <input type='hidden' name='email' placeholder='<%= mail %>' required>
-      <!-- const validateEmail = (email) => /^(\w+\.+\w+|\w+)\@\w*\.\D{3}$/g.test(email) -->
+      <input name='email' value='<%= mail %>' required>
       <h4>Zip code:</h2>
       <input type='text' name='zipcode' placeholder='98115' required>
           
@@ -36,20 +29,5 @@
   </main>
 
 
-
-  <!-- <footer id="footer">
-    <div id="foot-logo">
-        <img src="../../img/logo.png" alt="logo">
-    </div>
-    <div id="footer-links">
-      <h3>Additional Resources</h3>
-      <a href="https://www.alnwickgarden.com/the-garden/poison-garden/" target="blank">Poison Garden</a>
-      <a href="https://techport.nasa.gov/view/10498" target="blank">Space Plants</a>
-      <a href="https://www.thespruce.com/vegetable-garden-ideas-4156309" target="blank">Garden Inspiration</a>
-    </div>
-    <div id="copy">
-      <p>&copy; Team Plant-Ur-Terrain 2020</p>
-    </div>
-  </footer> -->
 </body>
 </html>
