@@ -33,7 +33,8 @@ app.get('/greenhouse/:id', renderGreenhouse);
 // app.post('/greenhouse', renderGreenhouse);
 app.delete('/greenhouse/:id', deletePlant);
 app.delete('/notes/:id', deleteNote);
-app.get('/details/:id/:plantid', renderDetails);
+app.get('/details/:id', renderDetails);
+// app.get('/details/:id/:plantid', renderDetails);
 app.get('/aboutUs/:id', renderAboutUs);
 app.put('/addNote/:id', addNotes);
 app.put('/updateNotes/:id', updateNotes);
@@ -133,7 +134,6 @@ function addToGreenhouse(request, response){
 
 function renderGreenhouse(request, response)
 {
-  console.log('reqBody in renderGreen', request.params.id)
   let id = request.params.id;
   let sql = `SELECT * FROM greenhouse WHERE user_key=${id} ;`; //WHERE user_id = request.
 
@@ -167,27 +167,26 @@ function deletePlant(request, response)
 //--------------------------------------------
 function renderDetails(request, response)
 {
- // console.log('REQUEST', request)
-  console.log('reqParams in details', request.params)
-  console.log('body in details', request.body)
 
   let id = request.params.id;
-
-  let plantid = request.params.plantid;
-
-  console.log('params id in renderDetails', id)
+  console.log('id in details', id)
+  console.log('request.params', request.params)
 
 
-  let sql = 'SELECT * FROM greenhouse WHERE id=$1 AND user_key=$2;';
-  let safeValue = [plantid, id];
+
+
+  let sql = 'SELECT * FROM greenhouse WHERE id=$1;';
+  let safeValue = [id];
+
   let sql2 = 'SELECT * FROM notes WHERE plant_key=$1;';
-  let safeValue2 = [plantid]
+
   client.query(sql, safeValue)
     .then(plant => {
-      client.query(sql2, safeValue2)
+      console.log('plant in details', plant)
+      client.query(sql2, safeValue)
         .then(ourNotes =>
         {
-          response.status(200).render('pages/details',{detailsTarget: plant.rows[0], notesArray: ourNotes.rows, user: id});
+          response.status(200).render('pages/details',{detailsTarget: plant.rows[0], notesArray: ourNotes.rows, user: plant.rows[0].user_key});
         })
     }).catch((error) => {
       console.log('ERROR', error);
@@ -266,8 +265,6 @@ function updateNotes(request, response)
     .then(hope =>
     {
       let key = hope.rows[0].plant_key;
-      console.log('hope', hope.rows[0])
-      console.log('hope', key)
       response.status(200).redirect(`/details/${key}`);
     })
 }
