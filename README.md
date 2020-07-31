@@ -1,5 +1,3 @@
-# stuff
-
 # Code 301 Final Project
 
 **Authors**: 
@@ -8,26 +6,35 @@
 - Hexx King
 - Tia Low
 
-**Version**: 1.0.0 (increment the patch/fix version number if you make more commits past your first submission)
+**Version**: 1.8.2 
 
 ## Overview
-<!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for a Code 301 class. (i.e. What's your problem domain?) -->
+- App provides information for keeping plants and a garden alive in different growing conditions
+- Unique user experience with a login
+- Search API for plants and get relevant information
+- Save plants to your own greenhouse and be able to access it later
+- Funcitonality to add notes and update them
 
 ## Getting Started
-<!-- What are the steps that a user must take in order to build this app on their own machine and get it running? -->
+- .env file using envSamples as a template
+- npm install for the following:
+- dependencies
+  - dotenv
+  - ejs
+  - express
+  - method-override
+  - superagent
+- create database named plants using postgres
+- connect the schema file with the database
 
 ## Architecture
-<!-- Provide a detailed description of the application design. What technologies (languages, libraries, etc) you're using, and any other relevant design information. -->
-
-## Change Log
-<!-- Use this area to document the iterative changes made to your application as each feature is successfully implemented. Use time stamps. Here's an examples:
-
-07-24-2020 4:00pm - Scaffolded basic file structure. 
-
-## Credits and Collaborations
-<!-- Give credit (and a link) to other people or resources that helped you build this application. -->
--->
+- HTML, CSS, JavaScript, jQuery, SQL, ejs
+- Server through express
 
 **Resources**:
 - https://www.w3schools.com/howto/howto_css_image_overlay.asp
--
+- https://www.freelogodesign.org/
+- https://github.com/damwhit/harvest_helper
+- http://api.weatherbit.io/v2.0/forecast/daily
+- https://unsplash.com/  
+- https://viliusle.github.io/miniPaint/

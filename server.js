@@ -51,10 +51,6 @@ function renderHome(request, response)
 function renderIndex(request, response)
 {
   let id = request.params.id;
-  //====================================================
-
-  //========================================================
-
   response.status(200).render('index', {user: id})
 }
 
@@ -96,7 +92,6 @@ function renderResults(request, response)
         }
       });
     }).catch((error) => {
-      console.log('ERROR', error);
       response.render('pages/error');
     })
 }
@@ -136,7 +131,6 @@ function renderGreenhouse(request, response)
       {
         let zip = zippy.rows[0].zipcode;
         let url = 'http://api.weatherbit.io/v2.0/current';
-        // let url = 'http://api.weatherbit.io/v2.0/forecast/daily';
 
         let queryParams =
         {
@@ -248,7 +242,6 @@ function addNotes(request, response)
 //--------------------------------
 function addUser(request, response)
 {
-  // console.log('request.body:'. request.body);
   let {name, email, zipcode} = request.body;
   let sql = 'INSERT INTO user_table (name, email, zipcode) VALUES ($1, $2, $3) RETURNING id;';
   let safeValues = [name, email, zipcode];
