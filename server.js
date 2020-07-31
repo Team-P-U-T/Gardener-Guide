@@ -25,14 +25,16 @@ app.use(methodOverride('_method'));
 // paths
 
 app.post('/pages', renderResults);
+// app.post('/pages', renderResults);
 app.get('/', renderHome);
 app.get('/index/:id', renderIndex);
 app.post('/addplant', addToGreenhouse);
-app.get('/greenhouse', renderGreenhouse);
+app.get('/greenhouse/:id', renderGreenhouse);
+// app.post('/greenhouse', renderGreenhouse);
 app.delete('/greenhouse/:id', deletePlant);
 app.delete('/notes/:id', deleteNote);
 app.get('/details/:id', renderDetails);
-app.get('/aboutUs', renderAboutUs);
+app.get('/aboutUs/:id', renderAboutUs);
 app.put('/addNote/:id', addNotes);
 app.put('/updateNotes/:id', updateNotes);
 app.post('/addUser', addUser);
@@ -79,8 +81,8 @@ function renderResults(request, response)
           let imageHash = 'https://res-5.cloudinary.com/do6bw42am/image/upload/c_scale,f_auto,h_300/v1/';
 
           let alreadyExists = false;
-          let sql = 'SELECT name FROM greenhouse WHERE name=$1;';
-          let safeValue = [searchName];
+          let sql = 'SELECT name FROM greenhouse WHERE name=$1 AND user_key=$2;';
+          let safeValue = [searchName, user_key];
 
           client.query(sql, safeValue)
             .then (results => {
@@ -121,7 +123,7 @@ function addToGreenhouse(request, response){
 
       let alreadyExists = true;
 
-      response.render('pages/results.ejs', { target: request.body, targetImg: imageHash, alreadyExists: alreadyExists})
+      response.render('pages/results.ejs', { target: request.body, targetImg: imageHash, alreadyExists: alreadyExists, user: user_key})
     })
 }
 
@@ -131,14 +133,16 @@ function addToGreenhouse(request, response){
 
 function renderGreenhouse(request, response)
 {
-  let sql = 'SELECT * FROM greenhouse;'; //WHERE user_id = request.
+  console.log('reqBody in renderGreen', request.params.id)
+  let id = request.params.id;
+  let sql = `SELECT * FROM greenhouse WHERE user_key=${id} ;`; //WHERE user_id = request.
 
   client.query(sql)
     .then(plants => {
 
       let plantArray = plants.rows;
 
-      response.render('pages/greenhouse', {target: plantArray});
+      response.render('pages/greenhouse', {target: plantArray, user: id});
     }).catch((error) => {
       console.log('ERROR', error);
       response.render('pages/error');
@@ -262,9 +266,9 @@ function updateNotes(request, response)
 
 function renderAboutUs(request, response)
 {
-  console.log('you are in about us');
+  console.log('you are in about us', request.params);
 
-  response.render('pages/aboutUs');
+  response.render('pages/aboutUs', {user : request.params.id});
 }
 
 
