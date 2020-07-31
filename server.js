@@ -18,27 +18,25 @@ app.set('view engine', 'ejs');
 
 // middleware
 
-app.use(express.static('./public')); //if not finding pages move views into public folder
+app.use(express.static('./public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
 // paths
 
 app.post('/pages', renderResults);
-// app.post('/pages', renderResults);
 app.get('/', renderHome);
 app.get('/index/:id', renderIndex);
 app.post('/addplant', addToGreenhouse);
 app.get('/greenhouse/:id', renderGreenhouse);
-// app.post('/greenhouse', renderGreenhouse);
 app.delete('/greenhouse/:id', deletePlant);
 app.delete('/notes/:id', deleteNote);
 app.get('/details/:id', renderDetails);
-// app.get('/details/:id/:plantid', renderDetails);
 app.get('/aboutUs/:id', renderAboutUs);
 app.put('/addNote/:id', addNotes);
 app.put('/updateNotes/:id', updateNotes);
 app.post('/addUser', addUser);
+app.post('/signIn', signIn);
 
 app.use('*', (request, response) => response.status(404).send('Page not Found'));
 
@@ -46,7 +44,6 @@ app.use('*', (request, response) => response.status(404).send('Page not Found'))
 
 function renderHome(request, response)
 {
-  // response.render('index');
   response.render('login');
 }
 
@@ -54,15 +51,44 @@ function renderHome(request, response)
 function renderIndex(request, response)
 {
   let id = request.params.id;
-  console.log('userId in index', id);
+  //====================================================
+  let sql = 'SELECT zipcode FROM user_table WHERE id=$1'
+  let safeValue = [id]
 
-  response.status(200).render('index', {user: id})
+  client.query(sql, safeValue)
+    .then(zippy => {
+      if(zippy.rowCount > 0)
+      {
+        let zip = zippy.rows[0].zipcode;
+        let url = 'http://api.weatherbit.io/v2.0/current';
+        // let url = 'http://api.weatherbit.io/v2.0/forecast/daily';
+
+        let queryParams =
+        {
+          key: process.env.WEATHER_API_KEY,
+          postal_code: zip,
+          days: 1,
+          umits: 'I'
+        }
+        superagent.get(url).query(queryParams).then(day =>
+        {
+          let cTemp = day.body.data[0].temp;
+          let fTemp = (cTemp * 9/5) + 32;
+          //formula to convert c to f (tempC * 9/5) + 32 = tempF
+          response.status(200).render('index', {user: id, temp: fTemp})
+        })
+      }else{
+        response.status(200).render('index', {user: id, temp: ''})
+      }
+    })
+  //========================================================
+
+  //response.status(200).render('index', {user: id})
 }
 
 //-----------------------------
 function renderResults(request, response)
 {
-  console.log('user_key in result', request.body);
   let user_key = request.body.user_key;
   let searchName = request.body.search;
   searchName = searchName.charAt(0).toUpperCase() + searchName.toLowerCase().slice(1);
@@ -103,10 +129,9 @@ function renderResults(request, response)
     })
 }
 
-
-function addToGreenhouse(request, response){
-
-  console.log('in add to greenhouse', request.body)
+//-----------------------
+function addToGreenhouse(request, response)
+{
   let {name, description, image_url, optimal_sun, optimal_soil, planting_considerations, when_to_plant, growing_from_seed, transplanting, spacing, watering, feeding, other_care, diseases, pests, harvesting, storage_use, user_key} = request.body;
 
   let sql = 'INSERT INTO greenhouse (name, description, image_url, optimal_sun, optimal_soil, planting_considerations, when_to_plant, growing_from_seed, transplanting, spacing, watering, feeding, other_care, diseases, pests, harvesting, storage_use, user_key) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING id;';
@@ -116,75 +141,55 @@ function addToGreenhouse(request, response){
   let safeValues = [name, description, image_url, optimal_sun, optimal_soil, planting_considerations, when_to_plant, growing_from_seed, transplanting, spacing, watering, feeding, other_care, diseases, pests, harvesting, storage_use, user_key];
 
   client.query(sql, safeValues)
-    .then(() => {
-      //defining id so that we can use it to uniquely identify users in stretch goals
-      // let id = results.rows[0].id;
-
+    .then(() =>
+    {
       let imageHash = 'https://res-5.cloudinary.com/do6bw42am/image/upload/c_scale,f_auto,h_300/v1/';
-
       let alreadyExists = true;
-
       response.render('pages/results.ejs', { target: request.body, targetImg: imageHash, alreadyExists: alreadyExists, user: user_key})
     })
 }
 
 //------------------------------
-
-
-
 function renderGreenhouse(request, response)
 {
   let id = request.params.id;
-  let sql = `SELECT * FROM greenhouse WHERE user_key=${id} ;`; //WHERE user_id = request.
+  let sql = `SELECT * FROM greenhouse WHERE user_key=${id} ;`;
 
   client.query(sql)
     .then(plants => {
 
       let plantArray = plants.rows;
-
       response.render('pages/greenhouse', {target: plantArray, user: id});
+
     }).catch((error) => {
       console.log('ERROR', error);
       response.render('pages/error');
     })
 }
 
-//------------------------------------------
+//------------------------------------
 function deletePlant(request, response)
 {
   let id = request.params.id;
-
-  let sql = 'DELETE FROM greenhouse WHERE id=$1;';
-
+  let sql = 'DELETE FROM greenhouse WHERE id=$1 RETURNING user_key;';
   let safeValue = [id];
 
   client.query(sql, safeValue)
-    .then (() => {
-      response.status(200).redirect('/greenhouse')
+    .then (theKey => {
+      response.status(200).redirect(`/greenhouse/${theKey.rows[0].user_key}`);
     })
 }
 
-
-
-
-
-
-
-
-//--------------------------------------------
+//--------------------------------------
 function renderDetails(request, response)
 {
-
   let id = request.params.id;
-
   let sql = 'SELECT * FROM greenhouse WHERE id=$1;';
   let safeValue = [id];
-
   let sql2 = 'SELECT * FROM notes WHERE plant_key=$1;';
 
   client.query(sql, safeValue)
     .then(plant => {
-      console.log('plant in details', plant)
       client.query(sql2, safeValue)
         .then(ourNotes =>
         {
@@ -196,14 +201,11 @@ function renderDetails(request, response)
     })
 }
 
-
 //-------------------------------------
 function deleteNote(request, response)
 {
   let id = request.params.id;
-
   let sql = 'DELETE FROM notes WHERE id=$1 RETURNING plant_key;';
-
   let safeValue = [id];
 
   client.query(sql, safeValue)
@@ -211,24 +213,14 @@ function deleteNote(request, response)
       let keyID = keys.rows[0].plant_key;
       response.status(200).redirect(`/details/${keyID}`)
     })
-
 }
 
 //------------------------------------
 function addNotes(request, response)
 {
-  // reconnect new sql file to make and join new tables
-  // figure out where to render notes (details page)
-  // SELECT * FROM notes ===== render this
-  // INSERT first into notes table
-  // render notes somewhere === refresh to same page
-  // add button to edit or delete with each note
-  // responce will be to refresh page and will stack notes
-
   let id = request.params.id;
   let notes = request.body.notes;
   let sql = 'INSERT INTO notes (user_notes, plant_key) VALUES ($1, $2);';
-
   let safeValues = [notes, id];
 
   client.query(sql, safeValues)
@@ -237,12 +229,10 @@ function addNotes(request, response)
       response.status(200).redirect(`/details/${id}`);
     })
 }
-//=====================================================
 
+//--------------------------------
 function addUser(request, response)
 {
-// check if user exist1111111111111111111111111111111111111111111
-  //let emails = 'SELECT email FROM '
   let {name, email, zipcode} = request.body;
   let sql = 'INSERT INTO user_table (name, email, zipcode) VALUES ($1, $2, $3) RETURNING id;';
   let safeValues = [name, email, zipcode];
@@ -254,14 +244,30 @@ function addUser(request, response)
     })
 }
 
+//-------------------------------
+function signIn(request, response)
+{
+  let userEmail = request.body.email;
+  let sql = 'SELECT id FROM user_table WHERE email=$1;';
+  let safeValues = [userEmail];
 
+  client.query(sql, safeValues)
+    .then(mail => {
+      if(mail.rowCount > 0)
+      {
+        response.status(200).redirect(`index/${mail.rows[0].id}`);
+      }else{
+        response.status(200).render('signup', {mail: userEmail});
+      }
+    })
+}
 
+//--------------------------------
 function updateNotes(request, response)
 {
   let id = request.params.id;
   let newNotes = request.body.notes;
   let sql = 'UPDATE notes SET user_notes=$1 WHERE id=$2 RETURNING plant_key;';
-
   let safeValues = [newNotes, id];
 
   client.query(sql, safeValues)
@@ -272,14 +278,13 @@ function updateNotes(request, response)
     })
 }
 
+//--------------------------------
 function renderAboutUs(request, response)
 {
-  console.log('you are in about us', request.params);
-
   response.render('pages/aboutUs', {user : request.params.id});
 }
 
-
+//--------------------------------
 client.connect()
   .then(() => {
     app.listen(PORT, () => console.log(`listening on ${PORT}`));
