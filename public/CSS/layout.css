@@ -10,22 +10,22 @@ body {
 
 
 #search-header {
- height: 125px;
+ height: 100px;
   width: 100%;
-  background-color: rgb(224, 203, 175);
+  background-color: rgb(206, 204, 202);
 }
 
 
 #logo {
   height: 90px; 
-  margin-top: 25px;
+  margin-top: 15px;
   margin-left: 50px;
 }
 
 #nav {
   position: absolute;
   right: 200px;
-  top: 70px;
+  top: 45px;
 }
 
 nav a, ul li {
@@ -33,7 +33,7 @@ nav a, ul li {
   padding: 4px;
   border-radius: 6px 6px;
   margin: 3px;
-  color:grey;
+  color:rgb(72, 70, 70);
   text-decoration: none;
 }
 
@@ -49,6 +49,7 @@ main {
   display: flex;
   align-items: center;
   background-repeat: no-repeat;
+  background-size: cover;
 }
 
 #search-field {
@@ -63,28 +64,32 @@ main {
   background-image: url("../img/dirt3.png");
   background-size: cover;
   z-index: 1;
-  min-height: 800px;
-  
+  min-height: 800px;  
 }
-#opacity {
-  z-index: 2;
-  background-color: rgba(71, 54, 31, 0.342)
-  
-  
-}
+
 
 #results-main {
   text-align: center;
   width: 60%;
   margin: auto;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  color: whitesmoke;
+  padding-top: 40px;
+  padding-right: 20px;
+  padding-left: 20px;
+  color: rgb(31, 23, 3);
   font-size: 20px;
+  background-color: rgba(245, 245, 245, 0.509);
+  /* padding: 50px; */
+  margin-top: 20px;
+  margin-bottom: 20px;
   /* color:  rgb(209, 181, 141); */
   z-index: 3;
+  border-radius: 10px;
 }
 
+h4 {
+  font-weight: bold;
+  margin-bottom: 3px;
+}
 
 #plant-info {
   margin-top: 5px;
@@ -94,25 +99,29 @@ main {
   display: grid;
   grid-template-columns: 1fr 4fr 2fr 1fr;
   grid-template-rows: 100%;
+  background-color: rgba(245, 245, 245, 0.509);
+  border-radius: 10px;
+  margin: 20px 60px 20px 60px;
 }
 
 #plant-image {
   border-radius: 10px;
   justify-self: center;
-  border: 5px solid rgb(224, 203, 175);
+  border: 5px solid rgb(51, 30, 2);
   margin-bottom: 3px;
   grid-column: 2 / 3;
   margin-top: 20px;
   margin-bottom: 20px;
   }
 
+
 #link-container {
   margin-top: 150px;
 }
 
 #gh-id {
-  border: 1px solid;
-  border-radius: 6px 6px;
+  border: 1px solid rgb(51, 30, 2);
+  border-radius: 6px;
   margin: 6px;
   color: rgb(74, 74, 74);
   background-color: rgb(239, 239, 239);
@@ -125,28 +134,31 @@ main {
 #remove-button {
   grid-column: 3 / 4;
   margin-top: 40px;
+  border: 1px solid rgb(51, 30, 2);
+  border-radius: 6px;
+  padding: 4px;
     
 }
 
 #details-main {
   min-height: 800px;
   padding: 40px;
-  background-image: url(https://c0.wallpaperflare.com/preview/469/518/472/soil-dirt-texture-earth.jpg);
+  background-image: url("../img/dirt3.png");
   background-size: cover;
-  color: whitesmoke;
+  color: rgb(24, 18, 6);
   font-size: 18px;
   /* z-index: 1; */
 }
 
 #detail-image {
-  border: 5px solid rgb(224, 203, 175);
+  border: 5px solid rgb(51, 30, 2);
   border-radius: 10px;
 }
 
  #details-div {
   z-index: 3;
-  background-color: rgba(245, 245, 245, 0.192);
-  padding: 10px;
+  background-color: rgba(245, 245, 245, 0.509);
+  border-radius: 10px;
   text-align: center;
   padding: 50px;
 }  
@@ -168,8 +180,7 @@ footer {
   grid-template-columns: 1fr 2fr 1fr;
   grid-template-rows: 100%;
   height: 100px;
-  background-color: rgb(224, 203, 175);
-  
+  background-color: rgb(206, 204, 202);
 }
 
 
@@ -185,19 +196,21 @@ footer {
   margin-top: 30px;
   }
 
-  #footer-links a {
-    margin-right: 10px;
-    text-decoration: none;
-    color: black;
-     
-  }
+#footer-links a {
+  margin-right: 10px;
+  text-decoration: none;
+  color: rgb(21, 20, 20);
+    
+}
+
 #footer-links a:visited {
-  color: grey;
+  color: rgb(86, 84, 84);
   font-style: italic;
 }
 
   #footer-links h3 {
     margin-bottom: 5px;
+    font-weight: bold;
   }
       
 #copy {

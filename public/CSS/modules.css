@@ -5,10 +5,10 @@
   padding: 3px;
   color: black;
   background-color: white;
-  border: 1px solid rgb(224, 203, 175);
+  border: 2px solid rgb(51, 30, 2);;
   border-radius: 3px;
-  transition: background-color .5s;
-  transition: all .2s ease-in-out; 
+  /* transition: background-color .5s;
+  transition: all .2s ease-in-out;  */
 }
 
 #toGreenhouseButton :visited {
@@ -22,23 +22,6 @@
   border: 1px solid rgb(224, 203, 175);
 }
 
-/* #toGreenhouseButton :hover {
-  background-color: rgb(199, 247, 214);
-  transform: scale(1.2);
-} */
-
-
-
-
-
-
-
-
-
-
-
-
-/* about us stuff */
 
 /* NESTED GRID */
 /* grid is on main and then each bio area is a row */
@@ -50,9 +33,9 @@
   padding-bottom: 50px;
   grid-template-columns: 100%;
   grid-template-rows: 25% 25% 25% 25%;
-  background-image: url(https://c0.wallpaperflare.com/preview/469/518/472/soil-dirt-texture-earth.jpg);
+  background-image: url("../img/dirt3.png");
   background-size: cover;
-  font-size: 25px;
+  font-size: 20px;
 }
 
 #hexx-bio-container {
@@ -92,7 +75,7 @@
 }
 
 .image {
-  width: 300px;
+  width: 260px;
   height: 350px;
   border: 3px solid white;
   border-radius: 20px;
@@ -116,7 +99,7 @@
   position: absolute;
   top: 0;
   height: 100%;
-  width: 300px;
+  width: 260px;
   justify-self: center;
   background: rgba(0, 0, 0, 0.65);
   transition: .5s ease;
@@ -129,7 +112,7 @@
   position: absolute;
   top: 0;
   height: 100%;
-  width: 300px;
+  width: 260px;
   justify-self: center;
   background: rgba(0, 0, 0, 0.65);
   transition: .5s ease;
