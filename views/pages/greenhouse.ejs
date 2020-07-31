@@ -6,7 +6,12 @@
 <body>
 
   <%- include('../partials/header.ejs') %>
+
   <main id="results-image">
+    <div>
+      <h1 id="temp"><%= temp%> ℉</h1>
+    </div>
+
     <div>
       <% target.forEach(plant => { %>
 
@@ -27,6 +32,7 @@
 
     </div>
   </main>
+
   <%- include('../partials/footer.ejs') %>
 
 </body>

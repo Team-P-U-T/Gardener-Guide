@@ -1,4 +1,11 @@
-DROP TABLE IF EXISTS greenhouse, notes;
+DROP TABLE IF EXISTS user_table, greenhouse, notes;
+
+CREATE TABLE user_table(
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255),
+  email VARCHAR(255) UNIQUE,
+  zipcode INT
+);
 
 CREATE TABLE greenhouse(
   id SERIAL PRIMARY KEY,
@@ -19,7 +26,9 @@ CREATE TABLE greenhouse(
   harvesting TEXT,
   storage_use TEXT,
   image_url TEXT,
-  notes TEXT
+  notes TEXT,
+  user_key INT NOT NULL,
+  FOREIGN KEY (user_key) REFERENCES user_table (id)
 );
 
 CREATE TABLE notes(
@@ -29,4 +38,5 @@ CREATE TABLE notes(
   FOREIGN KEY (plant_key) REFERENCES greenhouse (id)
 );
 
+SELECT * FROM greenhouse JOIN user_table ON greenhouse.user_key = user_table.id;
 SELECT * FROM notes JOIN greenhouse ON notes.plant_key = greenhouse.id;
