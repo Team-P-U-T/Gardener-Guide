@@ -51,6 +51,8 @@
   grid-template-columns: 100%;
   grid-template-rows: 25% 25% 25% 25%;
   background-image: url(https://c0.wallpaperflare.com/preview/469/518/472/soil-dirt-texture-earth.jpg);
+  background-size: cover;
+  font-size: 25px;
 }
 
 #hexx-bio-container {
@@ -153,12 +155,12 @@
   grid-column: 4 / 6;
   grid-row: 1 / 2;
   align-self: center;
-  color: rgb(239, 232, 232);
+  color: whitesmoke;
 }
 
 #davidbio, #tiabio {
   grid-column: 2 / 4;
   grid-row: 1 / 2;
   align-self: center;
-  color: rgb(239, 232, 232);
+  color: whitesmoke;
 }
