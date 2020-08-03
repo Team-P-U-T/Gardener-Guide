@@ -20,7 +20,7 @@
     <form id= 'login_form' action='/addUser' method='post'>
       <h4>Name:</h2>
       <input type='text' name='name' placeholder='JaneJohn Doe' required>
-      <input name='email' value='<%= mail %>' required>
+      <input type='hidden' name='email' value='<%= mail %>' required>
       <h4>Zip code:</h2>
       <input type='text' name='zipcode' placeholder='98115' required>
           
