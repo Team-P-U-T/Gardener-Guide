@@ -3,10 +3,9 @@ DROP TABLE IF EXISTS user_table, greenhouse, notes;
 CREATE TABLE user_table(
   id SERIAL PRIMARY KEY,
   name VARCHAR(255),
-  email VARCHAR(255),
+  email VARCHAR(255) UNIQUE,
   zipcode INT
 );
-
 
 CREATE TABLE greenhouse(
   id SERIAL PRIMARY KEY,

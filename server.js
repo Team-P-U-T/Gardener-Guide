@@ -54,7 +54,6 @@ function renderHome(request, response)
 function renderIndex(request, response)
 {
   let id = request.params.id;
-
   response.status(200).render('index', {user: id})
 }
 
@@ -80,14 +79,12 @@ function renderResults(request, response)
 
   client.query(sql, safeValue).then (results =>
   {
-    console.log('results', results)
     if(results.rowCount > 0) // check if plant was found in database
     {
       alreadyExists = true; // set flag to true
-      response.render('pages/results.ejs', { target: results.rows[0], targetImg: '', alreadyExists: alreadyExists, user: user_key, search: searchName}); //render results page and pass in item from db and change button to go to greenhouse
+      response.render('pages/results.ejs', { target: results.rows[0], targetImg: '', alreadyExists: alreadyExists, user: user_key, search: searchName}); //render results page: pass in plant from db, change greenhouse button
     } else
     {
-      // write a if statement to check name array before pinging api
       alreadyExists = false;
       superagent.get(url).query(queryParams).then(results =>
       {
@@ -117,7 +114,7 @@ function renderResults(request, response)
         }
       }).catch((error) => {
         console.log('ERROR', error);
-        response.render('pages/error');
+        response.redirect(`pages/error/${user_key}`);
       })
     }
   })
@@ -158,7 +155,6 @@ function renderGreenhouse(request, response)
       {
         let zip = zippy.rows[0].zipcode;
         let url = 'http://api.weatherbit.io/v2.0/current';
-        // let url = 'http://api.weatherbit.io/v2.0/forecast/daily';
 
         let queryParams =
         {
@@ -179,7 +175,7 @@ function renderGreenhouse(request, response)
 
             }).catch((error) => {
               console.log('ERROR', error);
-              response.render('pages/error');
+              response.redirect(`pages/error/${id}`);
             })
         })
       }else{
@@ -193,7 +189,7 @@ function renderGreenhouse(request, response)
 
           }).catch((error) => {
             console.log('ERROR', error);
-            response.render('pages/error');
+            response.redirect(`pages/error/${id}`);
           })
       }
     })
@@ -229,7 +225,7 @@ function renderDetails(request, response)
         })
     }).catch((error) => {
       console.log('ERROR', error);
-      response.render('pages/error');
+      response.redirect(`pages/error/${id}`);
     })
 }
 

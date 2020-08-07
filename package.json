@@ -1,7 +1,7 @@
 {
   "name": "gardener-guide",
   "version": "1.0.0",
-  "description": "# Code 301 Final Project",
+  "description": "# Code 301 Final Project, see readme for more information",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
