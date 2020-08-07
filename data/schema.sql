@@ -27,7 +27,7 @@ CREATE TABLE greenhouse(
   harvesting TEXT,
   storage_use TEXT,
   image_url TEXT,
-  notes TEXT,
+  search_name VARCHAR (255),
   user_key INT NOT NULL,
   FOREIGN KEY (user_key) REFERENCES user_table (id)
 );
