@@ -54,7 +54,7 @@ function renderHome(request, response)
 function renderIndex(request, response)
 {
   let id = request.params.id;
-  response.status(200).render('index', {user: id})
+  response.status(200).render('index', {user: id, not_found: ''})
 }
 
 //-----------------------------
@@ -103,14 +103,13 @@ function renderResults(request, response)
             if(plant.id === idArray[index]) // find plant id that matches id at the matching index
             {
               found = true
-              response.render('pages/results.ejs', { target: plant, targetImg: imageHash, alreadyExists: alreadyExists, user : user_key, search: searchName});
+              response.status(200).render('pages/results.ejs', { target: plant, targetImg: imageHash, alreadyExists: alreadyExists, user : user_key, search: searchName});
             }
           })
         }
         if(found === false)
         {
-          // This catches a search that turns up nothing need to place a element on index that can display a not found message
-          response.status(200).redirect(`index/${user_key}`); //send to index message { target: searchName}
+          response.status(200).render('index', {user: user_key, not_found: `Unable to find ${userSearch}`});
         }
       }).catch((error) => {
         console.log('ERROR', error);
