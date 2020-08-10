@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head.ejs') %>
+
+  <body>
+    <%- include('../partials/header.ejs') %>
+    <main>
+      
+      <form action="/createplant" method="post">
+
+        <input  name="name" value="<%= target.name %>">
+        <input  name="description" placeholder="Brief description here">
+        <input  name="image_url" placeholder="url to image if available">
+        <input  name="optimal_sun" placeholder="n/a">
+        <input  name="optimal_soil" placeholder="n/a">
+        <input  name="planting_considerations" placeholder="n/a">
+        <input  name="when_to_plant" placeholder="n/a">
+        <input  name="growing_from_seed" placeholder="n/a">
+        <input  name="transplanting" placeholder="n/a">
+        <input  name="spacing" placeholder="n/a">
+        <input  name="watering" placeholder="n/a">
+        <input  name="feeding" placeholder="n/a">
+        <input  name="other_care" placeholder="n/a">
+        <input  name="diseases" placeholder="n/a">
+        <input  name="pests" placeholder="n/a">
+        <input  name="harvesting" placeholder="n/a">
+        <input  name="storage_use" placeholder="n/a">
+        <input type='hidden' name="search_name" value="<%= search %>">
+        <input type='hidden' name="user_key" value="<%= user %>">
+        <button type="submit">Add to Greenhouse</button>
+        
+      </form>
+    </main>
+    <%- include('../partials/footer.ejs') %>
+  </body>
+</html>

@@ -8,10 +8,13 @@
   <%- include('./partials/header.ejs') %>
   <main id="carrot-image">
     <form id= 'search-field' action='/pages' method='post'>
-      <p id='not-found'><%= not_found %></p>
-      <input type='text' name='search' placeholder='Enter Plant Name' required>
+      
+        <p id='not-found'><%= not_found %></p>
+        <button id='add-button' formaction="/greenhouse"></button>
+  
+      <input type='text' name='search' placeholder='Enter Plant Name'>
       <input type='hidden' name='user_key' value="<%= user %>">
-      <button type='submit'>Search</button>
+      <button type='submit' id='search-button' value='search'>Search</button>
     </form>
   </main>
   

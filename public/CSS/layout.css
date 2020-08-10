@@ -31,12 +31,6 @@ body {
   
 }
 
-#not-found:not(:empty){
-  color: rgb(206, 204, 202);
-  padding: 3px 1px;
-}
-
-
 #search-header {
  height: 100px;
   width: 100%;
@@ -85,8 +79,34 @@ main {
   background-color: rgba(143, 142, 136, 0.571);
   border: 15px double rgb(143, 142, 136);
   border-radius: 8px;
+  /* display: grid;
+  grid-template-columns: 76% 24%; */
 }
 
+#not-found:not(:empty){
+  color: rgb(206, 204, 202);
+  padding: 1px 3px;
+}
+
+#add-button:empty {
+  display: none;
+}
+#search-field #add-button:not(:empty){
+  display: grid;
+  grid-template-columns: 76% 24%;
+  background-color: yellow;
+}
+
+#add-button:not(:empty){
+  padding: 1px 3px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  border-radius: 6px;
+}
+
+#search-button{
+  border-radius: 6px;
+}
 
 #results-image {
   background-image: url("../img/dirt3.png");

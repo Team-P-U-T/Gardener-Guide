@@ -40,10 +40,15 @@ app.put('/updateNotes/:id', updateNotes);
 app.post('/addUser', addUser);
 app.post('/signIn', signIn);
 app.get('/error/:id', renderError);
+app.post('/createplant', createPlant);
 
 app.use('*', (request, response) => response.status(404).send('Page not Found'));
 
 // --------- Functions -------
+function createPlant(request, response)
+{
+  console.log('made it to the createPlant function')
+}
 
 function renderHome(request, response)
 {
