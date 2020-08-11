@@ -4,30 +4,47 @@
 
   <body>
     <%- include('../partials/header.ejs') %>
-    <main>
-      
+    <main id="details-main">
       <form action="/createplant" method="post">
+        <div id="details-div">
+          <h4 class="plant-text">Name:</h4>
+          <input  name="name" value="<%= new_plant %>">
+          <h4 class="plant-text">Description:</h4>
+          <input  name="description" placeholder="Brief description here">
+          <h4 class="plant-text">Image:</h4>
+          <input  name="image_url" placeholder="Path to image if available">
+          <h4 class="plant-text">Optimal Sun:</h4>
+          <input  name="optimal_sun" placeholder="add details">
+          <h4 class="plant-text">When to Plant:</h4>
+          <input  name="when_to_plant" placeholder="add details">
+          <h4 class="plant-text">Spacing:</h4>
+          <input  name="spacing" placeholder="add details">
+          <h4 class="plant-text">Watering:</h4>
+          <input  name="watering" placeholder="add details">
+          <h4 class="plant-text">Feeding:</h4>
+          <input  name="feeding" placeholder="add details">
+          <h4 class="plant-text">Harvesting:</h4>
+          <input  name="harvesting" placeholder="add details">
+          <h4 class="plant-text">Growing From Seed:</h4>
+          <input  name="growing_from_seed" placeholder="add details">
+          <h4 class="plant-text">Optimal Soil:</h4>
+          <input  name="optimal_soil" placeholder="add details">
+          <h4 class="plant-text">Other Care:</h4>
+          <input  name="other_care" placeholder="add details">
+          <h4 class="plant-text">Diseases:</h4>
+          <input  name="diseases" placeholder="add details">
+          <h4 class="plant-text">Pests:</h4>
+          <input  name="pests" placeholder="add details">
+          <h4 class="plant-text">Storage Use:</h4>
+          <input  name="storage_use" placeholder="add details">
 
-        <input  name="name" value="<%= new_plant %>">
-        <input  name="description" placeholder="Brief description here">
-        <input  name="image_url" placeholder="url to image if available">
-        <input  name="optimal_sun" placeholder="n/a">
-        <input  name="optimal_soil" placeholder="n/a">
-        <input  name="planting_considerations" placeholder="n/a">
-        <input  name="when_to_plant" placeholder="n/a">
-        <input  name="growing_from_seed" placeholder="n/a">
-        <input  name="transplanting" placeholder="n/a">
-        <input  name="spacing" placeholder="n/a">
-        <input  name="watering" placeholder="n/a">
-        <input  name="feeding" placeholder="n/a">
-        <input  name="other_care" placeholder="n/a">
-        <input  name="diseases" placeholder="n/a">
-        <input  name="pests" placeholder="n/a">
-        <input  name="harvesting" placeholder="n/a">
-        <input  name="storage_use" placeholder="n/a">
-        <input type='hidden' name="search_name" value="">
-        <input type='hidden' name="user_key" value="<%= user %>">
-        <button type="submit">Add to Greenhouse</button>
+
+          <input type="hidden" name="planting_considerations" placeholder="add details">
+          <input type='hidden' name="transplanting" placeholder="add details">
+          <input type='hidden' name="search_name" value="">
+          <input type='hidden' name="user_key" value="<%= user %>"><br><br>
+          <button type="submit">Add to Greenhouse</button>
+        </div>
         
       </form>
     </main>
