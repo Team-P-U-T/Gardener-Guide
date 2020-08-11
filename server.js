@@ -1,11 +1,14 @@
 'use strict';
 
+let nameArray = [];
+let idArray = [];
 const express = require('express');
 const pg = require('pg');
 const superagent = require('superagent');
 require('dotenv').config();
 require('ejs');
 const methodOverride = require('method-override');
+const { render } = require('ejs');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -37,10 +40,17 @@ app.put('/addNote/:id', addNotes);
 app.put('/updateNotes/:id', updateNotes);
 app.post('/addUser', addUser);
 app.post('/signIn', signIn);
+app.get('/error/:id', renderError);
+app.post('/createplant/:id', createPlant);
 
 app.use('*', (request, response) => response.status(404).send('Page not Found'));
 
 // --------- Functions -------
+function createPlant(request, response)
+{
+  response.render('pages/createplant', { user: request.params.id, new_plant: request.body.new_plant});
+  console.log('made it to the createPlant function')
+}
 
 function renderHome(request, response)
 {
@@ -50,62 +60,82 @@ function renderHome(request, response)
 //---------------------------
 function renderIndex(request, response)
 {
-  let id = request.params.id;
-  response.status(200).render('index', {user: id})
+  response.status(200).render('index', {user: request.params.id, not_found: '', newplant: '', add_button: ''})
 }
 
 //-----------------------------
 function renderResults(request, response)
 {
-  let user_key = request.body.user_key;
-  let searchName = request.body.search;
-  searchName = searchName.charAt(0).toUpperCase() + searchName.toLowerCase().slice(1);
+  let found = false;
+  let user_key = request.body.user_key; //grab user key
+  let userSearch = request.body.search; // grab user search
+  let searchName = userSearch.toLowerCase().replace(/\s+/g, '').replace(/s$/, '');
 
-  const url = 'http://harvesthelper.herokuapp.com/api/v1/plants'
+  const url = 'http://harvesthelper.herokuapp.com/api/v1/plants'; //api url
 
   let queryParams = {
     api_key: process.env.PLANTS_API_KEY
   }
 
-  superagent.get(url)
-    .query(queryParams)
+  const imageHash = 'https://res-5.cloudinary.com/do6bw42am/image/upload/c_scale,f_auto,h_300/v1/';
 
-    .then(results => {
-      results.body.forEach(item => {
-        if (item.name === searchName) {
-          let imageHash = 'https://res-5.cloudinary.com/do6bw42am/image/upload/c_scale,f_auto,h_300/v1/';
+  let alreadyExists = false; // set flag to false
+  let sql = 'SELECT * FROM greenhouse WHERE search_name=$1 AND user_key=$2;'; //search database for match
+  let safeValue = [searchName, user_key]; //pass in searchName and user keys
 
-          let alreadyExists = false;
-          let sql = 'SELECT name FROM greenhouse WHERE name=$1 AND user_key=$2;';
-          let safeValue = [searchName, user_key];
-
-          client.query(sql, safeValue)
-            .then (results => {
-              if(results.rowCount > 0){
-                alreadyExists = true;
-                response.render('pages/results.ejs', { target: item, targetImg: imageHash, alreadyExists: alreadyExists, user: user_key});
-              } else{
-                alreadyExists = false;
-                response.render('pages/results.ejs', { target: item, targetImg: imageHash, alreadyExists: alreadyExists, user : user_key});
-              }
-            })
+  client.query(sql, safeValue).then (results =>
+  {
+    if(results.rowCount > 0) // check if plant was found in database
+    {
+      alreadyExists = true; // set flag to true
+      response.render('pages/results.ejs', { target: results.rows[0], targetImg: '', alreadyExists: alreadyExists, user: user_key, search: searchName}); //render results page: pass in plant from db, change greenhouse button
+    } else
+    {
+      alreadyExists = false;
+      superagent.get(url).query(queryParams).then(results =>
+      {
+        if(nameArray.length < 1) //create nameArray & idArray first time thru
+        {
+          nameArray = results.body.map(plant => plant.name.toLowerCase().replace(/\s+/g, '').replace(/s$/, ''));
+          idArray = results.body.map(plant => plant.id)
         }
-      });
-    }).catch((error) => {
-      response.render('pages/error');
-    })
+        // search nameArray for match and grab index of match
+        let index = nameArray.indexOf(searchName)
+
+        if(index > -1) //check if match was found
+        {
+          results.body.forEach(plant => // go through each plant from api
+          {
+            if(plant.id === idArray[index]) // find plant id that matches id at the matching index
+            {
+              found = true
+              response.status(200).render('pages/results.ejs', { target: plant, targetImg: imageHash, alreadyExists: alreadyExists, user : user_key, search: searchName});
+            }
+          })
+        }
+        if(found === false)
+        {
+          let buttonString = `add ${userSearch}`
+          response.status(200).render('index', {user: user_key, not_found: `Unable to find ${userSearch}`, newplant: userSearch, add_button: buttonString});
+        }
+      }).catch((error) => {
+        console.log('ERROR', error);
+        response.redirect(`pages/error/${user_key}`);
+      })
+    }
+  })
 }
 
 //-----------------------
 function addToGreenhouse(request, response)
 {
-  let {name, description, image_url, optimal_sun, optimal_soil, planting_considerations, when_to_plant, growing_from_seed, transplanting, spacing, watering, feeding, other_care, diseases, pests, harvesting, storage_use, user_key} = request.body;
+  let {name, description, image_url, optimal_sun, optimal_soil, planting_considerations, when_to_plant, growing_from_seed, transplanting, spacing, watering, feeding, other_care, diseases, pests, harvesting, storage_use, search_name, user_key} = request.body;
 
-  let sql = 'INSERT INTO greenhouse (name, description, image_url, optimal_sun, optimal_soil, planting_considerations, when_to_plant, growing_from_seed, transplanting, spacing, watering, feeding, other_care, diseases, pests, harvesting, storage_use, user_key) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING id;';
+  let sql = 'INSERT INTO greenhouse (name, description, image_url, optimal_sun, optimal_soil, planting_considerations, when_to_plant, growing_from_seed, transplanting, spacing, watering, feeding, other_care, diseases, pests, harvesting, storage_use, search_name, user_key) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19) RETURNING id;';
 
   image_url = `https://res-5.cloudinary.com/do6bw42am/image/upload/c_scale,f_auto,h_300/v1/${image_url}`;
 
-  let safeValues = [name, description, image_url, optimal_sun, optimal_soil, planting_considerations, when_to_plant, growing_from_seed, transplanting, spacing, watering, feeding, other_care, diseases, pests, harvesting, storage_use, user_key];
+  let safeValues = [name, description, image_url, optimal_sun, optimal_soil, planting_considerations, when_to_plant, growing_from_seed, transplanting, spacing, watering, feeding, other_care, diseases, pests, harvesting, storage_use, search_name, user_key];
 
   client.query(sql, safeValues)
     .then(() =>
@@ -137,26 +167,21 @@ function renderGreenhouse(request, response)
           key: process.env.WEATHER_API_KEY,
           postal_code: zip,
           days: 1,
-          // units: 'I'
+          units: 'I'
         }
         superagent.get(url).query(queryParams).then(day =>
         {
-          let cTemp = day.body.data[0].temp;
-          let decimalfTemp = (cTemp * 9/5) + 32;
-          let fTemp = Math.round(decimalfTemp);
-          //formula to convert c to f (tempC * 9/5) + 32 = tempF
+          let fTemp = day.body.data[0].temp;
           let sql = `SELECT * FROM greenhouse WHERE user_key=${id} ;`;
 
           client.query(sql)
             .then(plants => {
-              console.log('plants in weather:', plants);
-              console.log('fTemp:', fTemp);
               let plantArray = plants.rows;
               response.render('pages/greenhouse', {target: plantArray, user: id, temp: fTemp});
 
             }).catch((error) => {
               console.log('ERROR', error);
-              response.render('pages/error');
+              response.redirect(`pages/error/${id}`);
             })
         })
       }else{
@@ -170,7 +195,7 @@ function renderGreenhouse(request, response)
 
           }).catch((error) => {
             console.log('ERROR', error);
-            response.render('pages/error');
+            response.redirect(`pages/error/${id}`);
           })
       }
     })
@@ -206,7 +231,7 @@ function renderDetails(request, response)
         })
     }).catch((error) => {
       console.log('ERROR', error);
-      response.render('pages/error');
+      response.redirect(`pages/error/${id}`);
     })
 }
 
@@ -291,6 +316,12 @@ function updateNotes(request, response)
 function renderAboutUs(request, response)
 {
   response.render('pages/aboutUs', {user : request.params.id});
+}
+
+//--------------------------------
+function renderError(request, response)
+{
+  response.render('pages/error', {user : request.params.id})
 }
 
 //--------------------------------
