@@ -10,7 +10,8 @@
     <form id= 'search-field' action='/pages' method='post'>
       
         <p id='not-found'><%= not_found %></p>
-        <button id='add-button' formaction="/greenhouse"></button>
+        <input type='hidden' name='new_plant' value='<%= newplant %>'>
+        <button id='add-button' formaction="/createplant/<%= user %>"><%= add_button %></button>
   
       <input type='text' name='search' placeholder='Enter Plant Name'>
       <input type='hidden' name='user_key' value="<%= user %>">

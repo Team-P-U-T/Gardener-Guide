@@ -8,7 +8,7 @@
       
       <form action="/createplant" method="post">
 
-        <input  name="name" value="<%= target.name %>">
+        <input  name="name" value="<%= new_plant %>">
         <input  name="description" placeholder="Brief description here">
         <input  name="image_url" placeholder="url to image if available">
         <input  name="optimal_sun" placeholder="n/a">
@@ -25,7 +25,7 @@
         <input  name="pests" placeholder="n/a">
         <input  name="harvesting" placeholder="n/a">
         <input  name="storage_use" placeholder="n/a">
-        <input type='hidden' name="search_name" value="<%= search %>">
+        <input type='hidden' name="search_name" value="">
         <input type='hidden' name="user_key" value="<%= user %>">
         <button type="submit">Add to Greenhouse</button>
         

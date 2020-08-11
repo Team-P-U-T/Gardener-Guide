@@ -91,11 +91,6 @@ main {
 #add-button:empty {
   display: none;
 }
-#search-field #add-button:not(:empty){
-  display: grid;
-  grid-template-columns: 76% 24%;
-  background-color: yellow;
-}
 
 #add-button:not(:empty){
   padding: 1px 3px;

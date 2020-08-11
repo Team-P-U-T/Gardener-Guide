@@ -8,6 +8,7 @@ const superagent = require('superagent');
 require('dotenv').config();
 require('ejs');
 const methodOverride = require('method-override');
+const { render } = require('ejs');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -40,13 +41,14 @@ app.put('/updateNotes/:id', updateNotes);
 app.post('/addUser', addUser);
 app.post('/signIn', signIn);
 app.get('/error/:id', renderError);
-app.post('/createplant', createPlant);
+app.post('/createplant/:id', createPlant);
 
 app.use('*', (request, response) => response.status(404).send('Page not Found'));
 
 // --------- Functions -------
 function createPlant(request, response)
 {
+  response.render('pages/createplant', { user: request.params.id, new_plant: request.body.new_plant});
   console.log('made it to the createPlant function')
 }
 
@@ -58,8 +60,7 @@ function renderHome(request, response)
 //---------------------------
 function renderIndex(request, response)
 {
-  let id = request.params.id;
-  response.status(200).render('index', {user: id, not_found: ''})
+  response.status(200).render('index', {user: request.params.id, not_found: '', newplant: '', add_button: ''})
 }
 
 //-----------------------------
@@ -114,7 +115,8 @@ function renderResults(request, response)
         }
         if(found === false)
         {
-          response.status(200).render('index', {user: user_key, not_found: `Unable to find ${userSearch}`});
+          let buttonString = `add ${userSearch}`
+          response.status(200).render('index', {user: user_key, not_found: `Unable to find ${userSearch}`, newplant: userSearch, add_button: buttonString});
         }
       }).catch((error) => {
         console.log('ERROR', error);
