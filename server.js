@@ -42,16 +42,18 @@ app.post('/addUser', addUser);
 app.post('/signIn', signIn);
 app.get('/error/:id', renderError);
 app.post('/createplant/:id', createPlant);
+app.post('/newplant', newPlant);
 
 app.use('*', (request, response) => response.status(404).send('Page not Found'));
 
-// --------- Functions -------
+// ----- Functions -------
+
 function createPlant(request, response)
 {
   response.render('pages/createplant', { user: request.params.id, new_plant: request.body.new_plant});
-  console.log('made it to the createPlant function')
 }
 
+//-------------------------
 function renderHome(request, response)
 {
   response.render('login');
@@ -123,6 +125,52 @@ function renderResults(request, response)
         response.redirect(`pages/error/${user_key}`);
       })
     }
+  })
+}
+//--------------------
+function newPlant(request, response)
+{
+  let {name, description, image_url, optimal_sun, optimal_soil, planting_considerations, when_to_plant, growing_from_seed, transplanting, spacing, watering, feeding, other_care, diseases, pests, harvesting, storage_use, user_key} = request.body;
+  // make function to put n/a in place of empty strings ??
+  image_url === '' ? image_url = '/img/veggies.jpg' : '';
+  description === '' ? description = 'n/a' : '';
+  optimal_sun === '' ? optimal_sun = 'n/a' : '';
+  optimal_soil === '' ? optimal_soil = 'n/a' : '';
+  planting_considerations === '' ? planting_considerations = 'n/a' : '';
+  when_to_plant === '' ? when_to_plant = 'n/a' : '';
+  growing_from_seed === '' ? growing_from_seed = 'n/a' : '';
+  transplanting === '' ? transplanting = 'n/a' : '';
+  spacing === '' ? spacing = 'n/a' : '';
+  watering === '' ? watering = 'n/a' : '';
+  feeding === '' ? feeding = 'n/a' : '';
+  other_care === '' ? other_care = 'n/a' : '';
+  diseases === '' ? diseases = 'n/a' : '';
+  pests === '' ? pests = 'n/a' : '';
+  harvesting === '' ? harvesting = 'n/a' : '';
+  storage_use === '' ? storage_use = 'n/a' : '';
+  let search_name = name.toLowerCase().replace(/\s+/g, '').replace(/s$/, '');
+
+  let sql = 'INSERT INTO greenhouse (name, description, image_url, optimal_sun, optimal_soil, planting_considerations, when_to_plant, growing_from_seed, transplanting, spacing, watering, feeding, other_care, diseases, pests, harvesting, storage_use, search_name, user_key) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19) RETURNING id;';
+
+  let safeValues = [name, description, image_url, optimal_sun, optimal_soil, planting_considerations, when_to_plant, growing_from_seed, transplanting, spacing, watering, feeding, other_care, diseases, pests, harvesting, storage_use, search_name, user_key];
+
+  client.query(sql, safeValues).then(newId =>
+  {
+    let id = newId.rows[0].id;
+    let sql = 'SELECT * FROM greenhouse WHERE id=$1;';
+    let safeValue = [id];
+    let sql2 = 'SELECT * FROM notes WHERE plant_key=$1;';
+
+    client.query(sql, safeValue).then(plant =>
+    {
+      client.query(sql2, safeValue).then(ourNotes =>
+      {
+        response.status(200).render('pages/details',{detailsTarget: plant.rows[0], notesArray: ourNotes.rows, user: plant.rows[0].user_key});
+      })
+    }).catch((error) => {
+      console.log('ERROR', error);
+      response.redirect(`pages/error/${id}`);
+    })
   })
 }
 
