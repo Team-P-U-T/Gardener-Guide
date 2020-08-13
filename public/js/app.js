@@ -14,3 +14,6 @@ $('#plant-details').on('click', function() {
     $('#plant-details').text('See Plant Details');
   }
 });
+
+//-----------------------------------------
+
