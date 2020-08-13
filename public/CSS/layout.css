@@ -148,6 +148,9 @@ h4 {
 }
 
 #plant-image {
+  height: 310px;
+  /* width: auto; */
+  width: 463px;
   border-radius: 10px;
   justify-self: center;
   border: 5px solid rgb(51, 30, 2);
@@ -194,6 +197,7 @@ h4 {
 }
 
 #detail-image {
+  height: 310px;
   border: 5px solid rgb(51, 30, 2);
   border-radius: 10px;
 }

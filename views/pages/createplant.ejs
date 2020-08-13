@@ -4,50 +4,57 @@
 
   <body>
     <%- include('../partials/header.ejs') %>
+
     <main id="details-main">
-      <form action="/createplant" method="post">
         <div id="details-div">
-          <h4 class="plant-text">Name:</h4>
-          <input  name="name" value="<%= new_plant %>">
-          <h4 class="plant-text">Description:</h4>
-          <input  name="description" placeholder="Brief description here">
-          <h4 class="plant-text">Image:</h4>
-          <input  name="image_url" placeholder="Path to image if available">
-          <h4 class="plant-text">Optimal Sun:</h4>
-          <input  name="optimal_sun" placeholder="add details">
-          <h4 class="plant-text">When to Plant:</h4>
-          <input  name="when_to_plant" placeholder="add details">
-          <h4 class="plant-text">Spacing:</h4>
-          <input  name="spacing" placeholder="add details">
-          <h4 class="plant-text">Watering:</h4>
-          <input  name="watering" placeholder="add details">
-          <h4 class="plant-text">Feeding:</h4>
-          <input  name="feeding" placeholder="add details">
-          <h4 class="plant-text">Harvesting:</h4>
-          <input  name="harvesting" placeholder="add details">
-          <h4 class="plant-text">Growing From Seed:</h4>
-          <input  name="growing_from_seed" placeholder="add details">
-          <h4 class="plant-text">Optimal Soil:</h4>
-          <input  name="optimal_soil" placeholder="add details">
-          <h4 class="plant-text">Other Care:</h4>
-          <input  name="other_care" placeholder="add details">
-          <h4 class="plant-text">Diseases:</h4>
-          <input  name="diseases" placeholder="add details">
-          <h4 class="plant-text">Pests:</h4>
-          <input  name="pests" placeholder="add details">
-          <h4 class="plant-text">Storage Use:</h4>
-          <input  name="storage_use" placeholder="add details">
+
+      <form action= "/newplant" method="post">
+
+        <h2 class="plant-text"><%= new_plant %></h2><br>
+        <input type="hidden" name="name" value="<%= new_plant %>">
+        <h4 class="plant-text">Description:</h4>
+        <textarea name="description" cols="21" rows="4" placeholder="Brief description here"></textarea>
+        <h4 class="plant-text">Image:</h4>
+        <input name="image_url" placeholder="Image URL if available">
+        <h4 class="plant-text">Optimal Sun:</h4>
+        <input  name="optimal_sun" placeholder="add details">
+        <h4 class="plant-text">When to Plant:</h4>
+        <input  name="when_to_plant" placeholder="add details">
+        <h4 class="plant-text">Spacing:</h4>
+        <input  name="spacing" placeholder="add details">
+        <h4 class="plant-text">Watering:</h4>
+        <input  name="watering" placeholder="add details">
+        <h4 class="plant-text">Feeding:</h4>
+        <input  name="feeding" placeholder="add details">
+        <h4 class="plant-text">Harvesting:</h4>
+        <input  name="harvesting" placeholder="add details">
+        <h4 class="plant-text">Growing From Seed:</h4>
+        <input  name="growing_from_seed" placeholder="add details">
+        <h4 class="plant-text">Optimal Soil:</h4>
+        <input  name="optimal_soil" placeholder="add details">
+        <h4 class="plant-text">Other Care:</h4>
+        <input  name="other_care" placeholder="add details">
+        <h4 class="plant-text">Diseases:</h4>
+        <input  name="diseases" placeholder="add details">
+        <h4 class="plant-text">Pests:</h4>
+        <input  name="pests" placeholder="add details">
+        <h4 class="plant-text">Storage Use:</h4>
+        <input  name="storage_use" placeholder="add details">
 
 
-          <input type="hidden" name="planting_considerations" placeholder="add details">
-          <input type='hidden' name="transplanting" placeholder="add details">
-          <input type='hidden' name="search_name" value="">
-          <input type='hidden' name="user_key" value="<%= user %>"><br><br>
-          <button type="submit">Add to Greenhouse</button>
-        </div>
-        
+        <input type="hidden" name="planting_considerations" placeholder="add details">
+        <input type='hidden' name="transplanting" placeholder="add details">
+        <input type='hidden' name="search_name" value="">
+        <input type='hidden' name="user_key" value="<%= user %>"><br><br>
+        <button type="submit">Add to Greenhouse</button>
+
       </form>
+    </div>  
+
     </main>
     <%- include('../partials/footer.ejs') %>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../../js/app.js"></script>
   </body>
 </html>
