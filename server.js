@@ -65,63 +65,68 @@ function renderResults(request, response)
   let found = false;
   let user_key = request.body.user_key; //grab user key
   let userSearch = request.body.search; // grab user search
-  let searchName = userSearch.toLowerCase().replace(/\s+/g, '').replace(/s$/, '');
-
-  const url = 'http://harvesthelper.herokuapp.com/api/v1/plants'; //api url
-
-  let queryParams = {
-    api_key: process.env.PLANTS_API_KEY
-  }
-
-  const imageHash = 'https://res-5.cloudinary.com/do6bw42am/image/upload/c_scale,f_auto,h_300/v1/';
-
-  let alreadyExists = false; // set flag to false
-  let sql = 'SELECT * FROM greenhouse WHERE search_name=$1 AND user_key=$2;'; //search database for match
-  let safeValue = [searchName, user_key]; //pass in searchName and user keys
-
-  client.query(sql, safeValue).then (results =>
+  if(userSearch === '') // make sure user entered something
   {
-    if(results.rowCount > 0) // check if plant was found in database
-    {
-      alreadyExists = true; // set flag to true
-      response.render('pages/results.ejs', { target: results.rows[0], targetImg: '', alreadyExists: alreadyExists, user: user_key, search: searchName}); //render results page: pass in plant from db, change greenhouse button
-    } else
-    {
-      alreadyExists = false;
-      superagent.get(url).query(queryParams).then(results =>
-      {
-        if(nameArray.length < 1) //create nameArray & idArray first time thru
-        {
-          nameArray = results.body.map(plant => plant.name.toLowerCase().replace(/\s+/g, '').replace(/s$/, ''));
-          idArray = results.body.map(plant => plant.id)
-        }
-        // search nameArray for match and grab index of match
-        let index = nameArray.indexOf(searchName)
+    response.status(200).render('index', {user: user_key, not_found: '', newplant: '', add_button: ''});
+  }else
+  {
+    let searchName = userSearch.toLowerCase().replace(/\s+/g, '').replace(/s$/, '');
 
-        if(index > -1) //check if match was found
-        {
-          results.body.forEach(plant => // go through each plant from api
-          {
-            if(plant.id === idArray[index]) // find plant id that matches id at the matching index
-            {
-              found = true
-              response.status(200).render('pages/results.ejs', { target: plant, targetImg: imageHash, alreadyExists: alreadyExists, user : user_key, search: searchName});
-            }
-          })
-        }
-        if(found === false)
-        {
-          let buttonString = `add ${userSearch}`
-          response.status(200).render('index', {user: user_key, not_found: `Unable to find ${userSearch}`, newplant: userSearch, add_button: buttonString});
-        }
-      }).catch((error) => {
-        console.log('ERROR', error);
-        response.redirect(`pages/error/${user_key}`);
-      })
+    const url = 'http://harvesthelper.herokuapp.com/api/v1/plants'; //api url
+
+    let queryParams = {
+      api_key: process.env.PLANTS_API_KEY
     }
-  })
-}
 
+    const imageHash = 'https://res-5.cloudinary.com/do6bw42am/image/upload/c_scale,f_auto,h_300/v1/';
+
+    let alreadyExists = false; // set flag to false
+    let sql = 'SELECT * FROM greenhouse WHERE search_name=$1 AND user_key=$2;'; //search database for match
+    let safeValue = [searchName, user_key]; //pass in searchName and user keys
+
+    client.query(sql, safeValue).then (results =>
+    {
+      if(results.rowCount > 0) // check if plant was found in database
+      {
+        alreadyExists = true; // set flag to true
+        response.render('pages/results.ejs', { target: results.rows[0], targetImg: '', alreadyExists: alreadyExists, user: user_key, search: searchName}); //render results page: pass in plant from db, change greenhouse button
+      } else
+      {
+        alreadyExists = false;
+        superagent.get(url).query(queryParams).then(results =>
+        {
+          if(nameArray.length < 1) //create nameArray & idArray first time thru
+          {
+            nameArray = results.body.map(plant => plant.name.toLowerCase().replace(/\s+/g, '').replace(/s$/, ''));
+            idArray = results.body.map(plant => plant.id)
+          }
+          // search nameArray for match and grab index of match
+          let index = nameArray.indexOf(searchName)
+
+          if(index > -1) //check if match was found
+          {
+            results.body.forEach(plant => // go through each plant from api
+            {
+              if(plant.id === idArray[index]) // find plant id that matches id at the matching index
+              {
+                found = true
+                response.status(200).render('pages/results.ejs', { target: plant, targetImg: imageHash, alreadyExists: alreadyExists, user : user_key, search: searchName});
+              }
+            })
+          }
+          if(found === false)
+          {
+            let buttonString = `add ${userSearch}`
+            response.status(200).render('index', {user: user_key, not_found: `Unable to find ${userSearch}`, newplant: userSearch, add_button: buttonString});
+          }
+        }).catch((error) => {
+          console.log('ERROR', error);
+          response.redirect(`pages/error/${user_key}`);
+        })
+      }
+    })
+  }
+}
 //-----------------------
 function addToGreenhouse(request, response)
 {
