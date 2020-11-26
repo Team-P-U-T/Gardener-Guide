@@ -1,12 +1,16 @@
-# Code 301 Final Project
+# The Gardener's Guide
 
-**Authors**: 
-- Meghan Domeck
-- David Dicken
-- Hexx King
-- Tia Low
+<p align='center'>
+  <img width='300' height='150' src='./public/img/logo.png'>
+</p>
 
-**Version**: 1.8.2 
+**Authors**:    
+Meghan Domeck - [GitHub](https://github.com/mdomeck) || [LinkedIn](https://www.linkedin.com/in/meghan-domeck/)   
+Hexx King - [GitHub](https://github.com/HexxKing) || [LinkedIn](https://www.linkedin.com/in/hexx-king/)   
+David Dicken - [GitHub](https://github.com/daviddicken) || [LinkedIn](https://www.linkedin.com/in/david-dicken/)    
+Tia Low - [Github](https://github.com/TiaLow) || [LinkedIn](https://www.linkedin.com/in/tia-low/)   
+
+**Version**: 1.0.2 
 
 ## Overview
 - App provides information for keeping plants and a garden alive in different growing conditions
