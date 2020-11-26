@@ -19,6 +19,22 @@ Tia Low - [Github](https://github.com/TiaLow) || [LinkedIn](https://www.linkedin
 - Save plants to your own greenhouse and be able to access it later
 - Funcitonality to add notes and update them
 
+## Features
+
+<p align="center">
+<img alt="Login page" width="200" height="300" src='./public/img/login.png'>
+<img alt="New user page" width="200" height="300" src='./public/img/new-user.png'>
+<img alt="Search page" width="200" height="300" src='./public/img/search.png'>
+<img alt="Result page" width="200" height="300" src='./public/img/result.png'>
+
+</p>
+
+<p align="center">
+<img alt="Greenhouse collection page" width="200" height="300" src='./public/img/greenhouse.png'>
+<img alt="Notes page" width="200" height="300" src='./public/img/notes.png'>
+<img alt="Create a plant page" width="200" height="300" src='./public/img/create.png'>
+</p>
+
 ## Getting Started
 - .env file using envSamples as a template
 - npm install for the following:
