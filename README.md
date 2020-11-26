@@ -11,6 +11,9 @@ Tia Low - [Github](https://github.com/TiaLow) || [LinkedIn](https://www.linkedin
 ## Version 
 1.0.2 
 
+## Deployed
+[gardener-guide.herokuapp.com](https://gardener-guide.herokuapp.com/)
+
 ## Overview
 - A gardener's guide and helpful tool for gardeners and plant enthusiasts of any level
 - Unique user experience with login abilities
